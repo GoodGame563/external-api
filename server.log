@@ -1,0 +1,1413 @@
+[INFO 20:50:52] Configured for [4mdebug[0m.
+[INFO 20:50:52] address: [1;39m127.0.0.1[0m
+[INFO 20:50:52] port: [1;39m8000[0m
+[INFO 20:50:52] workers: [1;39m12[0m
+[INFO 20:50:52] max blocking threads: [1;39m512[0m
+[INFO 20:50:52] ident: [1;39mRocket[0m
+[INFO 20:50:52] IP header: [1;39mX-Real-IP[0m
+[INFO 20:50:52] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 20:50:52] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 20:50:52] http/2: [1;39mtrue[0m
+[INFO 20:50:52] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 20:50:52] tls: [1;39mdisabled[0m
+[INFO 20:50:52] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 20:50:52] log level: [1;39mnormal[0m
+[INFO 20:50:52] cli colors: [1;39mtrue[0m
+[INFO 20:50:52] [35mRoutes[0m:
+[INFO 20:50:52] [36m([0m[39mbase_route[0m[36m)[0m [32mGET[0m [34m/[0m
+[INFO 20:50:52] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 20:50:52] [35mFairings[0m:
+[INFO 20:50:52] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 20:50:52] [35mShield[0m:
+[INFO 20:50:52] X-Content-Type-Options: [39mnosniff[0m
+[INFO 20:50:52] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 20:50:52] Permissions-Policy: [39minterest-cohort=()[0m
+[WARN 20:50:52] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 20:52:28] [32mGET[0m [34m/authoriztion[0m:
+[ERROR 20:52:28] No matching routes for [32mGET[0m [34m/authoriztion[0m.
+[WARN 20:52:28] No [1;34m404[0m catcher registered. Using Rocket default.
+[INFO 20:52:28] [32mResponse succeeded.[0m
+[INFO 20:52:44] [32mPOST[0m [34m/authorization[0m:
+[INFO 20:52:44] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[WARN 20:52:44] Data guard `Json < crate :: structure :: receive_structures :: Enter < '_ > >` failed: Parse("", Error("EOF while parsing a value", line: 1, column: 0)).
+[INFO 20:52:44] [1;39mOutcome: [0m[31mError[0m([39m400 Bad Request[0m)
+[WARN 20:52:44] No [1;34m400[0m catcher registered. Using Rocket default.
+[INFO 20:52:44] [32mResponse succeeded.[0m
+[INFO 20:53:51] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 20:53:51] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 20:53:51] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 20:53:51] [32mResponse succeeded.[0m
+[WARN 20:57:53] Received SIGINT. Requesting shutdown.
+[INFO 20:57:53] Shutdown requested. Waiting for pending I/O...
+[INFO 20:57:53] Graceful shutdown completed successfully.
+[INFO 20:57:57] Configured for [4mdebug[0m.
+[INFO 20:57:57] address: [1;39m127.0.0.1[0m
+[INFO 20:57:57] port: [1;39m8000[0m
+[INFO 20:57:57] workers: [1;39m12[0m
+[INFO 20:57:57] max blocking threads: [1;39m512[0m
+[INFO 20:57:57] ident: [1;39mRocket[0m
+[INFO 20:57:57] IP header: [1;39mX-Real-IP[0m
+[INFO 20:57:57] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 20:57:57] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 20:57:57] http/2: [1;39mtrue[0m
+[INFO 20:57:57] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 20:57:57] tls: [1;39mdisabled[0m
+[INFO 20:57:57] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 20:57:57] log level: [1;39mnormal[0m
+[INFO 20:57:57] cli colors: [1;39mtrue[0m
+[INFO 20:57:57] [35mRoutes[0m:
+[INFO 20:57:57] [36m([0m[39mbase_route[0m[36m)[0m [32mGET[0m [34m/[0m
+[INFO 20:57:57] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 20:57:57] [35mFairings[0m:
+[INFO 20:57:57] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 20:57:57] [35mShield[0m:
+[INFO 20:57:57] X-Content-Type-Options: [39mnosniff[0m
+[INFO 20:57:57] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 20:57:57] Permissions-Policy: [39minterest-cohort=()[0m
+[WARN 20:57:57] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 20:58:25] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 20:58:25] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 20:58:25] [1;39mOutcome: [0m[32mSuccess[0m([39m304 Not Modified[0m)
+[INFO 20:58:25] [32mResponse succeeded.[0m
+[WARN 21:01:09] Received SIGINT. Requesting shutdown.
+[INFO 21:01:09] Shutdown requested. Waiting for pending I/O...
+[INFO 21:01:09] Graceful shutdown completed successfully.
+[INFO 21:01:13] Configured for [4mdebug[0m.
+[INFO 21:01:13] address: [1;39m127.0.0.1[0m
+[INFO 21:01:13] port: [1;39m8000[0m
+[INFO 21:01:13] workers: [1;39m12[0m
+[INFO 21:01:13] max blocking threads: [1;39m512[0m
+[INFO 21:01:13] ident: [1;39mRocket[0m
+[INFO 21:01:13] IP header: [1;39mX-Real-IP[0m
+[INFO 21:01:13] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 21:01:13] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 21:01:13] http/2: [1;39mtrue[0m
+[INFO 21:01:13] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 21:01:13] tls: [1;39mdisabled[0m
+[INFO 21:01:13] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 21:01:13] log level: [1;39mnormal[0m
+[INFO 21:01:13] cli colors: [1;39mtrue[0m
+[INFO 21:01:13] [35mRoutes[0m:
+[INFO 21:01:13] [36m([0m[39mbase_route[0m[36m)[0m [32mGET[0m [34m/[0m
+[INFO 21:01:13] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 21:01:13] [35mFairings[0m:
+[INFO 21:01:13] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 21:01:13] [35mShield[0m:
+[INFO 21:01:13] X-Content-Type-Options: [39mnosniff[0m
+[INFO 21:01:13] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 21:01:13] Permissions-Policy: [39minterest-cohort=()[0m
+[WARN 21:01:13] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 21:01:17] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 21:01:17] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 21:01:17] [1;39mOutcome: [0m[32mSuccess[0m([39m304 Not Modified[0m)
+[INFO 21:01:17] [32mResponse succeeded.[0m
+[WARN 21:01:40] Received SIGINT. Requesting shutdown.
+[INFO 21:01:40] Shutdown requested. Waiting for pending I/O...
+[INFO 21:01:40] Graceful shutdown completed successfully.
+[INFO 21:01:44] Configured for [4mdebug[0m.
+[INFO 21:01:44] address: [1;39m127.0.0.1[0m
+[INFO 21:01:44] port: [1;39m8000[0m
+[INFO 21:01:44] workers: [1;39m12[0m
+[INFO 21:01:44] max blocking threads: [1;39m512[0m
+[INFO 21:01:44] ident: [1;39mRocket[0m
+[INFO 21:01:44] IP header: [1;39mX-Real-IP[0m
+[INFO 21:01:44] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 21:01:44] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 21:01:44] http/2: [1;39mtrue[0m
+[INFO 21:01:44] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 21:01:44] tls: [1;39mdisabled[0m
+[INFO 21:01:44] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 21:01:44] log level: [1;39mnormal[0m
+[INFO 21:01:44] cli colors: [1;39mtrue[0m
+[INFO 21:01:44] [35mRoutes[0m:
+[INFO 21:01:44] [36m([0m[39mbase_route[0m[36m)[0m [32mGET[0m [34m/[0m
+[INFO 21:01:44] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 21:01:44] [35mFairings[0m:
+[INFO 21:01:44] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 21:01:44] [35mShield[0m:
+[INFO 21:01:44] Permissions-Policy: [39minterest-cohort=()[0m
+[INFO 21:01:44] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 21:01:44] X-Content-Type-Options: [39mnosniff[0m
+[WARN 21:01:44] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 21:01:44] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 21:01:44] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 21:01:44] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 21:01:44] [32mResponse succeeded.[0m
+[WARN 21:11:47] Received SIGINT. Requesting shutdown.
+[INFO 21:11:47] Shutdown requested. Waiting for pending I/O...
+[INFO 21:11:47] Graceful shutdown completed successfully.
+[INFO 00:57:31] Configured for [4mdebug[0m.
+[INFO 00:57:31] address: [1;39m127.0.0.1[0m
+[INFO 00:57:31] port: [1;39m8000[0m
+[INFO 00:57:31] workers: [1;39m12[0m
+[INFO 00:57:31] max blocking threads: [1;39m512[0m
+[INFO 00:57:31] ident: [1;39mRocket[0m
+[INFO 00:57:31] IP header: [1;39mX-Real-IP[0m
+[INFO 00:57:31] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 00:57:31] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 00:57:31] http/2: [1;39mtrue[0m
+[INFO 00:57:31] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 00:57:31] tls: [1;39mdisabled[0m
+[INFO 00:57:31] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 00:57:31] log level: [1;39mnormal[0m
+[INFO 00:57:31] cli colors: [1;39mtrue[0m
+[INFO 00:57:31] [35mRoutes[0m:
+[INFO 00:57:31] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 00:57:31] [35mFairings[0m:
+[INFO 00:57:31] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 00:57:31] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 00:57:31] [35mShield[0m:
+[INFO 00:57:31] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 00:57:31] X-Content-Type-Options: [39mnosniff[0m
+[INFO 00:57:31] Permissions-Policy: [39minterest-cohort=()[0m
+[WARN 00:57:31] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 00:57:35] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 00:57:35] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 00:57:35] [1;39mOutcome: [0m[32mSuccess[0m([39m500 Internal Server Error[0m)
+[INFO 00:57:35] [32mResponse succeeded.[0m
+[WARN 00:59:54] Received SIGINT. Requesting shutdown.
+[INFO 00:59:54] Shutdown requested. Waiting for pending I/O...
+[INFO 00:59:54] Graceful shutdown completed successfully.
+[INFO 00:59:55] Configured for [4mdebug[0m.
+[INFO 00:59:55] address: [1;39m127.0.0.1[0m
+[INFO 00:59:55] port: [1;39m8000[0m
+[INFO 00:59:55] workers: [1;39m12[0m
+[INFO 00:59:55] max blocking threads: [1;39m512[0m
+[INFO 00:59:55] ident: [1;39mRocket[0m
+[INFO 00:59:55] IP header: [1;39mX-Real-IP[0m
+[INFO 00:59:55] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 00:59:55] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 00:59:55] http/2: [1;39mtrue[0m
+[INFO 00:59:55] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 00:59:55] tls: [1;39mdisabled[0m
+[INFO 00:59:55] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 00:59:55] log level: [1;39mnormal[0m
+[INFO 00:59:55] cli colors: [1;39mtrue[0m
+[INFO 00:59:55] [35mRoutes[0m:
+[INFO 00:59:55] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 00:59:55] [35mFairings[0m:
+[INFO 00:59:55] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 00:59:55] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 00:59:55] [35mShield[0m:
+[INFO 00:59:55] X-Content-Type-Options: [39mnosniff[0m
+[INFO 00:59:55] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 00:59:55] Permissions-Policy: [39minterest-cohort=()[0m
+[WARN 00:59:55] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 01:00:00] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 01:00:00] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 01:00:00] [1;39mOutcome: [0m[32mSuccess[0m([39m500 Internal Server Error[0m)
+[INFO 01:00:00] [32mResponse succeeded.[0m
+[WARN 01:00:53] Received SIGINT. Requesting shutdown.
+[INFO 01:00:53] Shutdown requested. Waiting for pending I/O...
+[INFO 01:00:53] Graceful shutdown completed successfully.
+[INFO 01:00:55] Configured for [4mdebug[0m.
+[INFO 01:00:55] address: [1;39m127.0.0.1[0m
+[INFO 01:00:55] port: [1;39m8000[0m
+[INFO 01:00:55] workers: [1;39m12[0m
+[INFO 01:00:55] max blocking threads: [1;39m512[0m
+[INFO 01:00:55] ident: [1;39mRocket[0m
+[INFO 01:00:55] IP header: [1;39mX-Real-IP[0m
+[INFO 01:00:55] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 01:00:55] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 01:00:55] http/2: [1;39mtrue[0m
+[INFO 01:00:55] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 01:00:55] tls: [1;39mdisabled[0m
+[INFO 01:00:55] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 01:00:55] log level: [1;39mnormal[0m
+[INFO 01:00:55] cli colors: [1;39mtrue[0m
+[INFO 01:00:55] [35mRoutes[0m:
+[INFO 01:00:55] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 01:00:55] [35mFairings[0m:
+[INFO 01:00:55] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 01:00:55] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 01:00:55] [35mShield[0m:
+[INFO 01:00:55] Permissions-Policy: [39minterest-cohort=()[0m
+[INFO 01:00:55] X-Content-Type-Options: [39mnosniff[0m
+[INFO 01:00:55] X-Frame-Options: [39mSAMEORIGIN[0m
+[WARN 01:00:55] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 01:00:57] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 01:00:57] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 01:00:58] [1;39mOutcome: [0m[32mSuccess[0m([39m404 Not Found[0m)
+[INFO 01:00:58] [32mResponse succeeded.[0m
+[INFO 01:01:04] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 01:01:04] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 01:01:04] [1;39mOutcome: [0m[32mSuccess[0m([39m404 Not Found[0m)
+[INFO 01:01:04] [32mResponse succeeded.[0m
+[INFO 01:01:07] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 01:01:07] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 01:01:07] [1;39mOutcome: [0m[32mSuccess[0m([39m404 Not Found[0m)
+[INFO 01:01:07] [32mResponse succeeded.[0m
+[WARN 01:02:44] Received SIGINT. Requesting shutdown.
+[INFO 01:02:44] Shutdown requested. Waiting for pending I/O...
+[INFO 01:02:44] Graceful shutdown completed successfully.
+[INFO 01:02:48] Configured for [4mdebug[0m.
+[INFO 01:02:48] address: [1;39m127.0.0.1[0m
+[INFO 01:02:48] port: [1;39m8000[0m
+[INFO 01:02:48] workers: [1;39m12[0m
+[INFO 01:02:48] max blocking threads: [1;39m512[0m
+[INFO 01:02:48] ident: [1;39mRocket[0m
+[INFO 01:02:48] IP header: [1;39mX-Real-IP[0m
+[INFO 01:02:48] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 01:02:48] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 01:02:48] http/2: [1;39mtrue[0m
+[INFO 01:02:48] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 01:02:48] tls: [1;39mdisabled[0m
+[INFO 01:02:48] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 01:02:48] log level: [1;39mnormal[0m
+[INFO 01:02:48] cli colors: [1;39mtrue[0m
+[INFO 01:02:48] [35mRoutes[0m:
+[INFO 01:02:48] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 01:02:48] [35mFairings[0m:
+[INFO 01:02:48] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 01:02:48] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 01:02:48] [35mShield[0m:
+[INFO 01:02:48] X-Content-Type-Options: [39mnosniff[0m
+[INFO 01:02:48] Permissions-Policy: [39minterest-cohort=()[0m
+[INFO 01:02:48] X-Frame-Options: [39mSAMEORIGIN[0m
+[WARN 01:02:48] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 01:02:49] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 01:02:49] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 01:02:49] [1;39mOutcome: [0m[32mSuccess[0m([39m500 Internal Server Error[0m)
+[INFO 01:02:49] [32mResponse succeeded.[0m
+[WARN 01:04:23] Received SIGINT. Requesting shutdown.
+[INFO 01:04:23] Shutdown requested. Waiting for pending I/O...
+[INFO 01:04:23] Graceful shutdown completed successfully.
+[INFO 01:04:28] Configured for [4mdebug[0m.
+[INFO 01:04:28] address: [1;39m127.0.0.1[0m
+[INFO 01:04:28] port: [1;39m8000[0m
+[INFO 01:04:28] workers: [1;39m12[0m
+[INFO 01:04:28] max blocking threads: [1;39m512[0m
+[INFO 01:04:28] ident: [1;39mRocket[0m
+[INFO 01:04:28] IP header: [1;39mX-Real-IP[0m
+[INFO 01:04:28] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 01:04:28] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 01:04:28] http/2: [1;39mtrue[0m
+[INFO 01:04:28] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 01:04:28] tls: [1;39mdisabled[0m
+[INFO 01:04:28] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 01:04:28] log level: [1;39mnormal[0m
+[INFO 01:04:28] cli colors: [1;39mtrue[0m
+[INFO 01:04:28] [35mRoutes[0m:
+[INFO 01:04:28] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 01:04:28] [35mFairings[0m:
+[INFO 01:04:28] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 01:04:28] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 01:04:28] [35mShield[0m:
+[INFO 01:04:28] Permissions-Policy: [39minterest-cohort=()[0m
+[INFO 01:04:28] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 01:04:28] X-Content-Type-Options: [39mnosniff[0m
+[WARN 01:04:28] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 01:04:29] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 01:04:29] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 01:04:29] [1;39mOutcome: [0m[32mSuccess[0m([39m404 Not Found[0m)
+[INFO 01:04:29] [32mResponse succeeded.[0m
+[INFO 01:05:01] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 01:05:01] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 01:05:01] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 01:05:01] [32mResponse succeeded.[0m
+[INFO 01:12:59] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 01:12:59] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 01:12:59] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 01:12:59] [32mResponse succeeded.[0m
+[INFO 01:12:59] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 01:12:59] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 01:12:59] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 01:12:59] [32mResponse succeeded.[0m
+[INFO 01:12:59] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 01:12:59] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 01:12:59] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 01:12:59] [32mResponse succeeded.[0m
+[INFO 01:12:59] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 01:12:59] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 01:12:59] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 01:12:59] [32mResponse succeeded.[0m
+[INFO 02:39:13] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 02:39:13] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 02:39:13] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 02:39:13] [32mResponse succeeded.[0m
+[INFO 02:39:22] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 02:39:22] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 02:39:22] [1;39mOutcome: [0m[32mSuccess[0m([39m404 Not Found[0m)
+[INFO 02:39:22] [32mResponse succeeded.[0m
+[INFO 02:39:24] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 02:39:24] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 02:39:24] [1;39mOutcome: [0m[32mSuccess[0m([39m404 Not Found[0m)
+[INFO 02:39:24] [32mResponse succeeded.[0m
+[INFO 02:39:39] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 02:39:39] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 02:39:39] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 02:39:39] [32mResponse succeeded.[0m
+[INFO 02:39:42] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 02:39:42] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 02:39:42] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 02:39:42] [32mResponse succeeded.[0m
+[INFO 02:39:44] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 02:39:44] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 02:39:44] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 02:39:44] [32mResponse succeeded.[0m
+[INFO 02:39:45] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 02:39:45] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 02:39:45] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 02:39:45] [32mResponse succeeded.[0m
+[INFO 02:39:52] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 02:39:52] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 02:39:52] [1;39mOutcome: [0m[32mSuccess[0m([39m404 Not Found[0m)
+[INFO 02:39:52] [32mResponse succeeded.[0m
+[WARN 14:27:37] Received SIGINT. Requesting shutdown.
+[INFO 14:27:37] Shutdown requested. Waiting for pending I/O...
+[INFO 14:27:37] Graceful shutdown completed successfully.
+[INFO 17:54:50] Configured for [4mdebug[0m.
+[INFO 17:54:50] address: [1;39m127.0.0.1[0m
+[INFO 17:54:50] port: [1;39m8000[0m
+[INFO 17:54:50] workers: [1;39m12[0m
+[INFO 17:54:50] max blocking threads: [1;39m512[0m
+[INFO 17:54:50] ident: [1;39mRocket[0m
+[INFO 17:54:50] IP header: [1;39mX-Real-IP[0m
+[INFO 17:54:50] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 17:54:50] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 17:54:50] http/2: [1;39mtrue[0m
+[INFO 17:54:50] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 17:54:50] tls: [1;39mdisabled[0m
+[INFO 17:54:50] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 17:54:50] log level: [1;39mnormal[0m
+[INFO 17:54:50] cli colors: [1;39mtrue[0m
+[INFO 17:54:50] [35mRoutes[0m:
+[INFO 17:54:50] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 17:54:50] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 17:54:50] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [34m/create/task[0m
+[INFO 17:54:50] [35mFairings[0m:
+[INFO 17:54:50] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 17:54:50] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 17:54:50] [35mShield[0m:
+[INFO 17:54:50] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 17:54:50] Permissions-Policy: [39minterest-cohort=()[0m
+[INFO 17:54:50] X-Content-Type-Options: [39mnosniff[0m
+[WARN 17:54:50] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[WARN 17:55:32] Received SIGINT. Requesting shutdown.
+[INFO 17:55:32] Shutdown requested. Waiting for pending I/O...
+[INFO 17:55:32] Graceful shutdown completed successfully.
+[INFO 17:55:41] Configured for [4mdebug[0m.
+[INFO 17:55:41] address: [1;39m127.0.0.1[0m
+[INFO 17:55:41] port: [1;39m8000[0m
+[INFO 17:55:41] workers: [1;39m12[0m
+[INFO 17:55:41] max blocking threads: [1;39m512[0m
+[INFO 17:55:41] ident: [1;39mRocket[0m
+[INFO 17:55:41] IP header: [1;39mX-Real-IP[0m
+[INFO 17:55:41] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 17:55:41] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 17:55:41] http/2: [1;39mtrue[0m
+[INFO 17:55:41] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 17:55:41] tls: [1;39mdisabled[0m
+[INFO 17:55:41] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 17:55:41] log level: [1;39mnormal[0m
+[INFO 17:55:41] cli colors: [1;39mtrue[0m
+[INFO 17:55:41] [35mRoutes[0m:
+[INFO 17:55:41] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 17:55:41] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 17:55:41] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 17:55:41] [35mFairings[0m:
+[INFO 17:55:41] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 17:55:41] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 17:55:41] [35mShield[0m:
+[INFO 17:55:41] Permissions-Policy: [39minterest-cohort=()[0m
+[INFO 17:55:41] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 17:55:41] X-Content-Type-Options: [39mnosniff[0m
+[WARN 17:55:41] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[WARN 17:55:55] Received SIGINT. Requesting shutdown.
+[INFO 17:55:55] Shutdown requested. Waiting for pending I/O...
+[INFO 17:55:55] Graceful shutdown completed successfully.
+[INFO 19:22:04] Configured for [4mdebug[0m.
+[INFO 19:22:04] address: [1;39m127.0.0.1[0m
+[INFO 19:22:04] port: [1;39m8000[0m
+[INFO 19:22:04] workers: [1;39m12[0m
+[INFO 19:22:04] max blocking threads: [1;39m512[0m
+[INFO 19:22:04] ident: [1;39mRocket[0m
+[INFO 19:22:04] IP header: [1;39mX-Real-IP[0m
+[INFO 19:22:04] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 19:22:04] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 19:22:04] http/2: [1;39mtrue[0m
+[INFO 19:22:04] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 19:22:04] tls: [1;39mdisabled[0m
+[INFO 19:22:04] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 19:22:04] log level: [1;39mnormal[0m
+[INFO 19:22:04] cli colors: [1;39mtrue[0m
+[INFO 19:22:04] [35mRoutes[0m:
+[INFO 19:22:04] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 19:22:04] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 19:22:04] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 19:22:04] [35mFairings[0m:
+[INFO 19:22:04] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 19:22:04] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 19:22:04] [35mShield[0m:
+[INFO 19:22:04] Permissions-Policy: [39minterest-cohort=()[0m
+[INFO 19:22:04] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 19:22:04] X-Content-Type-Options: [39mnosniff[0m
+[WARN 19:22:04] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 19:22:09] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 19:22:09] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 19:22:09] [1;39mOutcome: [0m[32mSuccess[0m([39m404 Not Found[0m)
+[INFO 19:22:09] [32mResponse succeeded.[0m
+[INFO 19:22:56] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 19:22:56] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[ERROR 19:22:56] Handler [39mauthorization[0m panicked.
+[INFO 19:22:56] This is an application bug.
+[INFO 19:22:56] A panic in Rust must be treated as an exceptional event.
+[INFO 19:22:56] Panicking is not a suitable error handling mechanism.
+[INFO 19:22:56] Unwinding, the result of a panic, is an expensive operation.
+[INFO 19:22:56] Panics will degrade application performance.
+[INFO 19:22:56] Instead of panicking, return `Option` and/or `Result`.
+[INFO 19:22:56] Values of either type can be returned directly from handlers.
+[WARN 19:22:56] A panic is treated as an internal server error.
+[INFO 19:22:56] [1;39mOutcome: [0m[31mError[0m([39m500 Internal Server Error[0m)
+[WARN 19:22:56] No [1;34m500[0m catcher registered. Using Rocket default.
+[INFO 19:22:56] [32mResponse succeeded.[0m
+[WARN 19:24:26] Received SIGINT. Requesting shutdown.
+[INFO 19:24:26] Shutdown requested. Waiting for pending I/O...
+[INFO 19:24:26] Graceful shutdown completed successfully.
+[INFO 19:24:31] Configured for [4mdebug[0m.
+[INFO 19:24:31] address: [1;39m127.0.0.1[0m
+[INFO 19:24:31] port: [1;39m8000[0m
+[INFO 19:24:31] workers: [1;39m12[0m
+[INFO 19:24:31] max blocking threads: [1;39m512[0m
+[INFO 19:24:31] ident: [1;39mRocket[0m
+[INFO 19:24:31] IP header: [1;39mX-Real-IP[0m
+[INFO 19:24:31] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 19:24:31] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 19:24:31] http/2: [1;39mtrue[0m
+[INFO 19:24:31] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 19:24:31] tls: [1;39mdisabled[0m
+[INFO 19:24:31] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 19:24:31] log level: [1;39mnormal[0m
+[INFO 19:24:31] cli colors: [1;39mtrue[0m
+[INFO 19:24:31] [35mRoutes[0m:
+[INFO 19:24:31] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 19:24:31] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 19:24:31] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 19:24:31] [35mFairings[0m:
+[INFO 19:24:31] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 19:24:31] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 19:24:31] [35mShield[0m:
+[INFO 19:24:31] X-Content-Type-Options: [39mnosniff[0m
+[INFO 19:24:31] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 19:24:31] Permissions-Policy: [39minterest-cohort=()[0m
+[WARN 19:24:31] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 19:24:45] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 19:24:45] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 19:24:45] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 19:24:45] [32mResponse succeeded.[0m
+[INFO 19:26:09] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 19:26:09] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 19:26:09] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 19:26:09] [32mResponse succeeded.[0m
+[INFO 19:27:17] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 19:27:17] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[WARN 19:27:17] Data guard `Json < crate :: structure :: receive_structures :: CreateTask < '_ > >` failed: Parse("{\n\t\n}", Error("missing field `url`", line: 3, column: 1)).
+[INFO 19:27:17] [1;39mOutcome: [0m[31mError[0m([39m422 Unprocessable Entity[0m)
+[WARN 19:27:17] No [1;34m422[0m catcher registered. Using Rocket default.
+[INFO 19:27:17] [32mResponse succeeded.[0m
+[INFO 19:27:56] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 19:27:56] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 19:27:57] [1;39mOutcome: [0m[32mSuccess[0m([39m500 Internal Server Error[0m)
+[INFO 19:27:57] [32mResponse succeeded.[0m
+[WARN 22:00:02] Received SIGINT. Requesting shutdown.
+[INFO 22:00:02] Shutdown requested. Waiting for pending I/O...
+[INFO 22:00:02] Graceful shutdown completed successfully.
+[INFO 03:31:39] Configured for [4mdebug[0m.
+[INFO 03:31:39] address: [1;39m127.0.0.1[0m
+[INFO 03:31:39] port: [1;39m8000[0m
+[INFO 03:31:39] workers: [1;39m12[0m
+[INFO 03:31:39] max blocking threads: [1;39m512[0m
+[INFO 03:31:39] ident: [1;39mRocket[0m
+[INFO 03:31:39] IP header: [1;39mX-Real-IP[0m
+[INFO 03:31:39] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 03:31:39] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 03:31:39] http/2: [1;39mtrue[0m
+[INFO 03:31:39] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 03:31:39] tls: [1;39mdisabled[0m
+[INFO 03:31:39] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 03:31:39] log level: [1;39mnormal[0m
+[INFO 03:31:39] cli colors: [1;39mtrue[0m
+[INFO 03:31:39] [35mRoutes[0m:
+[INFO 03:31:39] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 03:31:39] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 03:31:39] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:31:39] [35mFairings[0m:
+[INFO 03:31:39] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 03:31:39] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 03:31:39] [35mShield[0m:
+[INFO 03:31:39] X-Content-Type-Options: [39mnosniff[0m
+[INFO 03:31:39] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 03:31:39] Permissions-Policy: [39minterest-cohort=()[0m
+[WARN 03:31:39] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 03:32:04] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 03:32:04] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:32:07] [1;39mOutcome: [0m[32mSuccess[0m([39m500 Internal Server Error[0m)
+[INFO 03:32:07] [32mResponse succeeded.[0m
+[WARN 03:32:58] Received SIGINT. Requesting shutdown.
+[INFO 03:32:58] Shutdown requested. Waiting for pending I/O...
+[INFO 03:32:58] Graceful shutdown completed successfully.
+[INFO 03:33:04] Configured for [4mdebug[0m.
+[INFO 03:33:04] address: [1;39m127.0.0.1[0m
+[INFO 03:33:04] port: [1;39m8000[0m
+[INFO 03:33:04] workers: [1;39m12[0m
+[INFO 03:33:04] max blocking threads: [1;39m512[0m
+[INFO 03:33:04] ident: [1;39mRocket[0m
+[INFO 03:33:04] IP header: [1;39mX-Real-IP[0m
+[INFO 03:33:04] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 03:33:04] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 03:33:04] http/2: [1;39mtrue[0m
+[INFO 03:33:04] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 03:33:04] tls: [1;39mdisabled[0m
+[INFO 03:33:04] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 03:33:04] log level: [1;39mnormal[0m
+[INFO 03:33:04] cli colors: [1;39mtrue[0m
+[INFO 03:33:04] [35mRoutes[0m:
+[INFO 03:33:04] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 03:33:04] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 03:33:04] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:33:04] [35mFairings[0m:
+[INFO 03:33:04] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 03:33:04] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 03:33:04] [35mShield[0m:
+[INFO 03:33:04] Permissions-Policy: [39minterest-cohort=()[0m
+[INFO 03:33:04] X-Content-Type-Options: [39mnosniff[0m
+[INFO 03:33:04] X-Frame-Options: [39mSAMEORIGIN[0m
+[WARN 03:33:04] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 03:33:06] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 03:33:06] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:33:09] [1;39mOutcome: [0m[32mSuccess[0m([39m500 Internal Server Error[0m)
+[INFO 03:33:09] [32mResponse succeeded.[0m
+[WARN 03:34:37] Received SIGINT. Requesting shutdown.
+[INFO 03:34:37] Shutdown requested. Waiting for pending I/O...
+[INFO 03:34:37] Graceful shutdown completed successfully.
+[INFO 03:34:44] Configured for [4mdebug[0m.
+[INFO 03:34:44] address: [1;39m127.0.0.1[0m
+[INFO 03:34:44] port: [1;39m8000[0m
+[INFO 03:34:44] workers: [1;39m12[0m
+[INFO 03:34:44] max blocking threads: [1;39m512[0m
+[INFO 03:34:44] ident: [1;39mRocket[0m
+[INFO 03:34:44] IP header: [1;39mX-Real-IP[0m
+[INFO 03:34:44] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 03:34:44] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 03:34:44] http/2: [1;39mtrue[0m
+[INFO 03:34:44] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 03:34:44] tls: [1;39mdisabled[0m
+[INFO 03:34:44] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 03:34:44] log level: [1;39mnormal[0m
+[INFO 03:34:44] cli colors: [1;39mtrue[0m
+[INFO 03:34:44] [35mRoutes[0m:
+[INFO 03:34:44] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 03:34:44] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 03:34:44] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:34:44] [35mFairings[0m:
+[INFO 03:34:44] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 03:34:44] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 03:34:44] [35mShield[0m:
+[INFO 03:34:44] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 03:34:44] X-Content-Type-Options: [39mnosniff[0m
+[INFO 03:34:44] Permissions-Policy: [39minterest-cohort=()[0m
+[WARN 03:34:44] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 03:34:46] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 03:34:46] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:34:49] [1;39mOutcome: [0m[32mSuccess[0m([39m500 Internal Server Error[0m)
+[INFO 03:34:49] [32mResponse succeeded.[0m
+[WARN 03:36:30] Received SIGINT. Requesting shutdown.
+[INFO 03:36:30] Shutdown requested. Waiting for pending I/O...
+[INFO 03:36:30] Graceful shutdown completed successfully.
+[INFO 03:36:36] Configured for [4mdebug[0m.
+[INFO 03:36:36] address: [1;39m127.0.0.1[0m
+[INFO 03:36:36] port: [1;39m8000[0m
+[INFO 03:36:36] workers: [1;39m12[0m
+[INFO 03:36:36] max blocking threads: [1;39m512[0m
+[INFO 03:36:36] ident: [1;39mRocket[0m
+[INFO 03:36:36] IP header: [1;39mX-Real-IP[0m
+[INFO 03:36:36] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 03:36:36] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 03:36:36] http/2: [1;39mtrue[0m
+[INFO 03:36:36] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 03:36:36] tls: [1;39mdisabled[0m
+[INFO 03:36:36] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 03:36:36] log level: [1;39mnormal[0m
+[INFO 03:36:36] cli colors: [1;39mtrue[0m
+[INFO 03:36:36] [35mRoutes[0m:
+[INFO 03:36:36] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 03:36:36] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 03:36:36] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:36:36] [35mFairings[0m:
+[INFO 03:36:36] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 03:36:36] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 03:36:36] [35mShield[0m:
+[INFO 03:36:36] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 03:36:36] X-Content-Type-Options: [39mnosniff[0m
+[INFO 03:36:36] Permissions-Policy: [39minterest-cohort=()[0m
+[WARN 03:36:36] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 03:36:42] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 03:36:42] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:36:44] [1;39mOutcome: [0m[32mSuccess[0m([39m500 Internal Server Error[0m)
+[INFO 03:36:44] [32mResponse succeeded.[0m
+[WARN 03:41:05] Received SIGINT. Requesting shutdown.
+[INFO 03:41:05] Shutdown requested. Waiting for pending I/O...
+[INFO 03:41:05] Graceful shutdown completed successfully.
+[INFO 03:41:11] Configured for [4mdebug[0m.
+[INFO 03:41:11] address: [1;39m127.0.0.1[0m
+[INFO 03:41:11] port: [1;39m8000[0m
+[INFO 03:41:11] workers: [1;39m12[0m
+[INFO 03:41:11] max blocking threads: [1;39m512[0m
+[INFO 03:41:11] ident: [1;39mRocket[0m
+[INFO 03:41:11] IP header: [1;39mX-Real-IP[0m
+[INFO 03:41:11] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 03:41:11] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 03:41:11] http/2: [1;39mtrue[0m
+[INFO 03:41:11] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 03:41:11] tls: [1;39mdisabled[0m
+[INFO 03:41:11] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 03:41:11] log level: [1;39mnormal[0m
+[INFO 03:41:11] cli colors: [1;39mtrue[0m
+[INFO 03:41:11] [35mRoutes[0m:
+[INFO 03:41:11] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 03:41:11] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 03:41:11] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:41:11] [35mFairings[0m:
+[INFO 03:41:11] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 03:41:11] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 03:41:11] [35mShield[0m:
+[INFO 03:41:11] X-Content-Type-Options: [39mnosniff[0m
+[INFO 03:41:11] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 03:41:11] Permissions-Policy: [39minterest-cohort=()[0m
+[WARN 03:41:11] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 03:41:13] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 03:41:13] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:41:16] [1;39mOutcome: [0m[32mSuccess[0m([39m500 Internal Server Error[0m)
+[INFO 03:41:16] [32mResponse succeeded.[0m
+[WARN 03:44:35] Received SIGINT. Requesting shutdown.
+[INFO 03:44:35] Shutdown requested. Waiting for pending I/O...
+[INFO 03:44:35] Graceful shutdown completed successfully.
+[INFO 03:49:06] Configured for [4mdebug[0m.
+[INFO 03:49:06] address: [1;39m127.0.0.1[0m
+[INFO 03:49:06] port: [1;39m8000[0m
+[INFO 03:49:06] workers: [1;39m12[0m
+[INFO 03:49:06] max blocking threads: [1;39m512[0m
+[INFO 03:49:06] ident: [1;39mRocket[0m
+[INFO 03:49:06] IP header: [1;39mX-Real-IP[0m
+[INFO 03:49:06] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 03:49:06] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 03:49:06] http/2: [1;39mtrue[0m
+[INFO 03:49:06] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 03:49:06] tls: [1;39mdisabled[0m
+[INFO 03:49:06] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 03:49:06] log level: [1;39mnormal[0m
+[INFO 03:49:06] cli colors: [1;39mtrue[0m
+[INFO 03:49:06] [35mRoutes[0m:
+[INFO 03:49:06] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 03:49:06] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 03:49:06] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:49:06] [35mFairings[0m:
+[INFO 03:49:06] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 03:49:06] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 03:49:06] [35mShield[0m:
+[INFO 03:49:06] X-Content-Type-Options: [39mnosniff[0m
+[INFO 03:49:06] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 03:49:06] Permissions-Policy: [39minterest-cohort=()[0m
+[WARN 03:49:06] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 03:49:14] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 03:49:14] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:49:16] [1;39mOutcome: [0m[32mSuccess[0m([39m500 Internal Server Error[0m)
+[INFO 03:49:16] [32mResponse succeeded.[0m
+[WARN 03:50:43] Received SIGINT. Requesting shutdown.
+[INFO 03:50:43] Shutdown requested. Waiting for pending I/O...
+[INFO 03:50:43] Graceful shutdown completed successfully.
+[INFO 03:50:49] Configured for [4mdebug[0m.
+[INFO 03:50:49] address: [1;39m127.0.0.1[0m
+[INFO 03:50:49] port: [1;39m8000[0m
+[INFO 03:50:49] workers: [1;39m12[0m
+[INFO 03:50:49] max blocking threads: [1;39m512[0m
+[INFO 03:50:49] ident: [1;39mRocket[0m
+[INFO 03:50:49] IP header: [1;39mX-Real-IP[0m
+[INFO 03:50:49] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 03:50:49] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 03:50:49] http/2: [1;39mtrue[0m
+[INFO 03:50:49] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 03:50:49] tls: [1;39mdisabled[0m
+[INFO 03:50:49] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 03:50:49] log level: [1;39mnormal[0m
+[INFO 03:50:49] cli colors: [1;39mtrue[0m
+[INFO 03:50:49] [35mRoutes[0m:
+[INFO 03:50:49] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 03:50:49] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 03:50:49] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:50:49] [35mFairings[0m:
+[INFO 03:50:49] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 03:50:49] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 03:50:49] [35mShield[0m:
+[INFO 03:50:49] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 03:50:49] Permissions-Policy: [39minterest-cohort=()[0m
+[INFO 03:50:49] X-Content-Type-Options: [39mnosniff[0m
+[WARN 03:50:49] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 03:50:50] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 03:50:50] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:50:52] [1;39mOutcome: [0m[32mSuccess[0m([39m500 Internal Server Error[0m)
+[INFO 03:50:52] [32mResponse succeeded.[0m
+[INFO 03:54:21] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 03:54:21] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:54:23] [1;39mOutcome: [0m[32mSuccess[0m([39m500 Internal Server Error[0m)
+[INFO 03:54:23] [32mResponse succeeded.[0m
+[WARN 03:55:54] Received SIGINT. Requesting shutdown.
+[INFO 03:55:54] Shutdown requested. Waiting for pending I/O...
+[INFO 03:55:54] Graceful shutdown completed successfully.
+[INFO 03:56:01] Configured for [4mdebug[0m.
+[INFO 03:56:01] address: [1;39m127.0.0.1[0m
+[INFO 03:56:01] port: [1;39m8000[0m
+[INFO 03:56:01] workers: [1;39m12[0m
+[INFO 03:56:01] max blocking threads: [1;39m512[0m
+[INFO 03:56:01] ident: [1;39mRocket[0m
+[INFO 03:56:01] IP header: [1;39mX-Real-IP[0m
+[INFO 03:56:01] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 03:56:01] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 03:56:01] http/2: [1;39mtrue[0m
+[INFO 03:56:01] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 03:56:01] tls: [1;39mdisabled[0m
+[INFO 03:56:01] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 03:56:01] log level: [1;39mnormal[0m
+[INFO 03:56:01] cli colors: [1;39mtrue[0m
+[INFO 03:56:01] [35mRoutes[0m:
+[INFO 03:56:01] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 03:56:01] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 03:56:01] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:56:01] [35mFairings[0m:
+[INFO 03:56:01] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 03:56:01] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 03:56:01] [35mShield[0m:
+[INFO 03:56:01] Permissions-Policy: [39minterest-cohort=()[0m
+[INFO 03:56:01] X-Content-Type-Options: [39mnosniff[0m
+[INFO 03:56:01] X-Frame-Options: [39mSAMEORIGIN[0m
+[WARN 03:56:01] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 03:56:03] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 03:56:03] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:56:05] [1;39mOutcome: [0m[32mSuccess[0m([39m500 Internal Server Error[0m)
+[INFO 03:56:05] [32mResponse succeeded.[0m
+[INFO 03:57:07] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 03:57:07] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:57:09] [1;39mOutcome: [0m[32mSuccess[0m([39m500 Internal Server Error[0m)
+[INFO 03:57:09] [32mResponse succeeded.[0m
+[WARN 03:58:52] Received SIGINT. Requesting shutdown.
+[INFO 03:58:52] Shutdown requested. Waiting for pending I/O...
+[INFO 03:58:52] Graceful shutdown completed successfully.
+[INFO 03:58:58] Configured for [4mdebug[0m.
+[INFO 03:58:58] address: [1;39m127.0.0.1[0m
+[INFO 03:58:58] port: [1;39m8000[0m
+[INFO 03:58:58] workers: [1;39m12[0m
+[INFO 03:58:58] max blocking threads: [1;39m512[0m
+[INFO 03:58:58] ident: [1;39mRocket[0m
+[INFO 03:58:58] IP header: [1;39mX-Real-IP[0m
+[INFO 03:58:58] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 03:58:58] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 03:58:58] http/2: [1;39mtrue[0m
+[INFO 03:58:58] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 03:58:58] tls: [1;39mdisabled[0m
+[INFO 03:58:58] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 03:58:58] log level: [1;39mnormal[0m
+[INFO 03:58:58] cli colors: [1;39mtrue[0m
+[INFO 03:58:58] [35mRoutes[0m:
+[INFO 03:58:58] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 03:58:58] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 03:58:58] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:58:58] [35mFairings[0m:
+[INFO 03:58:58] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 03:58:58] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 03:58:58] [35mShield[0m:
+[INFO 03:58:58] Permissions-Policy: [39minterest-cohort=()[0m
+[INFO 03:58:58] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 03:58:58] X-Content-Type-Options: [39mnosniff[0m
+[WARN 03:58:58] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 03:59:01] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 03:59:01] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 03:59:06] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 03:59:06] [32mResponse succeeded.[0m
+[INFO 04:01:25] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 04:01:25] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 04:01:27] [1;39mOutcome: [0m[32mSuccess[0m([39m500 Internal Server Error[0m)
+[INFO 04:01:27] [32mResponse succeeded.[0m
+[WARN 04:06:07] Received SIGINT. Requesting shutdown.
+[INFO 04:06:07] Shutdown requested. Waiting for pending I/O...
+[INFO 04:06:07] Graceful shutdown completed successfully.
+[INFO 04:06:13] Configured for [4mdebug[0m.
+[INFO 04:06:13] address: [1;39m127.0.0.1[0m
+[INFO 04:06:13] port: [1;39m8000[0m
+[INFO 04:06:13] workers: [1;39m12[0m
+[INFO 04:06:13] max blocking threads: [1;39m512[0m
+[INFO 04:06:13] ident: [1;39mRocket[0m
+[INFO 04:06:13] IP header: [1;39mX-Real-IP[0m
+[INFO 04:06:13] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 04:06:13] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 04:06:13] http/2: [1;39mtrue[0m
+[INFO 04:06:13] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 04:06:13] tls: [1;39mdisabled[0m
+[INFO 04:06:13] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 04:06:13] log level: [1;39mnormal[0m
+[INFO 04:06:13] cli colors: [1;39mtrue[0m
+[INFO 04:06:13] [35mRoutes[0m:
+[INFO 04:06:13] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 04:06:13] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 04:06:13] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 04:06:13] [35mFairings[0m:
+[INFO 04:06:13] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 04:06:13] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 04:06:13] [35mShield[0m:
+[INFO 04:06:13] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 04:06:13] X-Content-Type-Options: [39mnosniff[0m
+[INFO 04:06:13] Permissions-Policy: [39minterest-cohort=()[0m
+[WARN 04:06:13] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 04:06:14] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 04:06:14] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 04:06:16] [1;39mOutcome: [0m[32mSuccess[0m([39m500 Internal Server Error[0m)
+[INFO 04:06:16] [32mResponse succeeded.[0m
+[WARN 04:07:04] Received SIGINT. Requesting shutdown.
+[INFO 04:07:04] Shutdown requested. Waiting for pending I/O...
+[INFO 04:07:04] Graceful shutdown completed successfully.
+[INFO 04:07:10] Configured for [4mdebug[0m.
+[INFO 04:07:10] address: [1;39m127.0.0.1[0m
+[INFO 04:07:10] port: [1;39m8000[0m
+[INFO 04:07:10] workers: [1;39m12[0m
+[INFO 04:07:10] max blocking threads: [1;39m512[0m
+[INFO 04:07:10] ident: [1;39mRocket[0m
+[INFO 04:07:10] IP header: [1;39mX-Real-IP[0m
+[INFO 04:07:10] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 04:07:10] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 04:07:10] http/2: [1;39mtrue[0m
+[INFO 04:07:10] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 04:07:10] tls: [1;39mdisabled[0m
+[INFO 04:07:10] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 04:07:10] log level: [1;39mnormal[0m
+[INFO 04:07:10] cli colors: [1;39mtrue[0m
+[INFO 04:07:10] [35mRoutes[0m:
+[INFO 04:07:10] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 04:07:10] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 04:07:10] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 04:07:10] [35mFairings[0m:
+[INFO 04:07:10] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 04:07:10] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 04:07:10] [35mShield[0m:
+[INFO 04:07:10] X-Content-Type-Options: [39mnosniff[0m
+[INFO 04:07:10] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 04:07:10] Permissions-Policy: [39minterest-cohort=()[0m
+[WARN 04:07:10] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 04:07:11] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 04:07:11] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 04:07:13] [1;39mOutcome: [0m[32mSuccess[0m([39m500 Internal Server Error[0m)
+[INFO 04:07:13] [32mResponse succeeded.[0m
+[WARN 04:09:19] Received SIGINT. Requesting shutdown.
+[INFO 04:09:19] Shutdown requested. Waiting for pending I/O...
+[INFO 04:09:19] Graceful shutdown completed successfully.
+[INFO 04:09:24] Configured for [4mdebug[0m.
+[INFO 04:09:24] address: [1;39m127.0.0.1[0m
+[INFO 04:09:24] port: [1;39m8000[0m
+[INFO 04:09:24] workers: [1;39m12[0m
+[INFO 04:09:24] max blocking threads: [1;39m512[0m
+[INFO 04:09:24] ident: [1;39mRocket[0m
+[INFO 04:09:24] IP header: [1;39mX-Real-IP[0m
+[INFO 04:09:24] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 04:09:24] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 04:09:24] http/2: [1;39mtrue[0m
+[INFO 04:09:24] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 04:09:24] tls: [1;39mdisabled[0m
+[INFO 04:09:24] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 04:09:24] log level: [1;39mnormal[0m
+[INFO 04:09:24] cli colors: [1;39mtrue[0m
+[INFO 04:09:24] [35mRoutes[0m:
+[INFO 04:09:24] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 04:09:24] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 04:09:24] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 04:09:24] [35mFairings[0m:
+[INFO 04:09:24] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 04:09:24] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 04:09:24] [35mShield[0m:
+[INFO 04:09:24] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 04:09:24] Permissions-Policy: [39minterest-cohort=()[0m
+[INFO 04:09:24] X-Content-Type-Options: [39mnosniff[0m
+[WARN 04:09:24] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 04:09:26] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 04:09:26] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 04:09:30] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 04:09:30] [32mResponse succeeded.[0m
+[WARN 04:09:39] Received SIGINT. Requesting shutdown.
+[INFO 04:09:39] Shutdown requested. Waiting for pending I/O...
+[INFO 04:09:39] Graceful shutdown completed successfully.
+[INFO 04:09:46] Configured for [4mdebug[0m.
+[INFO 04:09:46] address: [1;39m127.0.0.1[0m
+[INFO 04:09:46] port: [1;39m8000[0m
+[INFO 04:09:46] workers: [1;39m12[0m
+[INFO 04:09:46] max blocking threads: [1;39m512[0m
+[INFO 04:09:46] ident: [1;39mRocket[0m
+[INFO 04:09:46] IP header: [1;39mX-Real-IP[0m
+[INFO 04:09:46] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 04:09:46] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 04:09:46] http/2: [1;39mtrue[0m
+[INFO 04:09:46] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 04:09:46] tls: [1;39mdisabled[0m
+[INFO 04:09:46] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 04:09:46] log level: [1;39mnormal[0m
+[INFO 04:09:46] cli colors: [1;39mtrue[0m
+[INFO 04:09:46] [35mRoutes[0m:
+[INFO 04:09:46] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 04:09:46] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 04:09:46] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 04:09:46] [35mFairings[0m:
+[INFO 04:09:46] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 04:09:46] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 04:09:46] [35mShield[0m:
+[INFO 04:09:46] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 04:09:46] X-Content-Type-Options: [39mnosniff[0m
+[INFO 04:09:46] Permissions-Policy: [39minterest-cohort=()[0m
+[WARN 04:09:46] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[WARN 04:10:51] Received SIGINT. Requesting shutdown.
+[INFO 04:10:51] Shutdown requested. Waiting for pending I/O...
+[INFO 04:10:51] Graceful shutdown completed successfully.
+[INFO 04:10:58] Configured for [4mdebug[0m.
+[INFO 04:10:58] address: [1;39m127.0.0.1[0m
+[INFO 04:10:58] port: [1;39m8000[0m
+[INFO 04:10:58] workers: [1;39m12[0m
+[INFO 04:10:58] max blocking threads: [1;39m512[0m
+[INFO 04:10:58] ident: [1;39mRocket[0m
+[INFO 04:10:58] IP header: [1;39mX-Real-IP[0m
+[INFO 04:10:58] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 04:10:58] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 04:10:58] http/2: [1;39mtrue[0m
+[INFO 04:10:58] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 04:10:58] tls: [1;39mdisabled[0m
+[INFO 04:10:58] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 04:10:58] log level: [1;39mnormal[0m
+[INFO 04:10:58] cli colors: [1;39mtrue[0m
+[INFO 04:10:58] [35mRoutes[0m:
+[INFO 04:10:58] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 04:10:58] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 04:10:58] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 04:10:58] [35mFairings[0m:
+[INFO 04:10:58] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 04:10:58] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 04:10:58] [35mShield[0m:
+[INFO 04:10:58] Permissions-Policy: [39minterest-cohort=()[0m
+[INFO 04:10:58] X-Content-Type-Options: [39mnosniff[0m
+[INFO 04:10:58] X-Frame-Options: [39mSAMEORIGIN[0m
+[WARN 04:10:58] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 04:11:00] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 04:11:00] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 04:11:00] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 04:11:00] [32mResponse succeeded.[0m
+[INFO 04:11:12] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 04:11:12] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 04:11:16] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 04:11:16] [32mResponse succeeded.[0m
+[INFO 04:11:18] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 04:11:18] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 04:11:21] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 04:11:21] [32mResponse succeeded.[0m
+[WARN 04:19:16] Received SIGINT. Requesting shutdown.
+[INFO 04:19:16] Shutdown requested. Waiting for pending I/O...
+[INFO 04:19:16] Graceful shutdown completed successfully.
+[INFO 04:19:22] Configured for [4mdebug[0m.
+[INFO 04:19:22] address: [1;39m127.0.0.1[0m
+[INFO 04:19:22] port: [1;39m8000[0m
+[INFO 04:19:22] workers: [1;39m12[0m
+[INFO 04:19:22] max blocking threads: [1;39m512[0m
+[INFO 04:19:22] ident: [1;39mRocket[0m
+[INFO 04:19:22] IP header: [1;39mX-Real-IP[0m
+[INFO 04:19:22] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 04:19:22] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 04:19:22] http/2: [1;39mtrue[0m
+[INFO 04:19:22] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 04:19:22] tls: [1;39mdisabled[0m
+[INFO 04:19:22] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 04:19:22] log level: [1;39mnormal[0m
+[INFO 04:19:22] cli colors: [1;39mtrue[0m
+[INFO 04:19:22] [35mRoutes[0m:
+[INFO 04:19:22] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 04:19:22] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 04:19:22] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 04:19:22] [35mFairings[0m:
+[INFO 04:19:22] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 04:19:22] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 04:19:22] [35mShield[0m:
+[INFO 04:19:22] Permissions-Policy: [39minterest-cohort=()[0m
+[INFO 04:19:22] X-Content-Type-Options: [39mnosniff[0m
+[INFO 04:19:22] X-Frame-Options: [39mSAMEORIGIN[0m
+[WARN 04:19:22] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 04:19:24] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 04:19:24] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[WARN 04:19:24] Request guard `AuthUser` failed: "Invalid token: ExpiredSignature".
+[INFO 04:19:24] [1;39mOutcome: [0m[31mError[0m([39m401 Unauthorized[0m)
+[WARN 04:19:24] No [1;34m401[0m catcher registered. Using Rocket default.
+[INFO 04:19:24] [32mResponse succeeded.[0m
+[INFO 04:19:30] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 04:19:30] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 04:19:30] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 04:19:30] [32mResponse succeeded.[0m
+[INFO 04:19:43] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 04:19:43] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[WARN 04:19:43] Request guard `AuthUser` failed: "Invalid token: ExpiredSignature".
+[INFO 04:19:43] [1;39mOutcome: [0m[31mError[0m([39m401 Unauthorized[0m)
+[WARN 04:19:43] No [1;34m401[0m catcher registered. Using Rocket default.
+[INFO 04:19:43] [32mResponse succeeded.[0m
+[WARN 04:19:50] Received SIGINT. Requesting shutdown.
+[INFO 04:19:50] Shutdown requested. Waiting for pending I/O...
+[INFO 04:19:50] Graceful shutdown completed successfully.
+[INFO 04:20:28] Configured for [4mdebug[0m.
+[INFO 04:20:28] address: [1;39m127.0.0.1[0m
+[INFO 04:20:28] port: [1;39m8000[0m
+[INFO 04:20:28] workers: [1;39m12[0m
+[INFO 04:20:28] max blocking threads: [1;39m512[0m
+[INFO 04:20:28] ident: [1;39mRocket[0m
+[INFO 04:20:28] IP header: [1;39mX-Real-IP[0m
+[INFO 04:20:28] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 04:20:28] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 04:20:28] http/2: [1;39mtrue[0m
+[INFO 04:20:28] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 04:20:28] tls: [1;39mdisabled[0m
+[INFO 04:20:28] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 04:20:28] log level: [1;39mnormal[0m
+[INFO 04:20:28] cli colors: [1;39mtrue[0m
+[INFO 04:20:28] [35mRoutes[0m:
+[INFO 04:20:28] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 04:20:28] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 04:20:28] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 04:20:28] [35mFairings[0m:
+[INFO 04:20:28] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 04:20:28] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 04:20:28] [35mShield[0m:
+[INFO 04:20:28] X-Content-Type-Options: [39mnosniff[0m
+[INFO 04:20:28] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 04:20:28] Permissions-Policy: [39minterest-cohort=()[0m
+[WARN 04:20:28] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 04:20:31] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 04:20:31] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 04:20:31] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 04:20:31] [32mResponse succeeded.[0m
+[INFO 04:20:40] [32mPOST[0m [34m/create/task[0m [33mapplication/json[0m:
+[INFO 04:20:40] Matched: [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 04:20:44] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 04:20:44] [32mResponse succeeded.[0m
+[INFO 04:21:17] [32mGET[0m [34m/docs[0m [33mtext/html[0m:
+[ERROR 04:21:17] No matching routes for [32mGET[0m [34m/docs[0m [33mtext/html[0m.
+[WARN 04:21:17] No [1;34m404[0m catcher registered. Using Rocket default.
+[INFO 04:21:17] [32mResponse succeeded.[0m
+[INFO 04:21:17] [32mGET[0m [34m/favicon.ico[0m [33mimage/avif[0m:
+[ERROR 04:21:17] No matching routes for [32mGET[0m [34m/favicon.ico[0m [33mimage/avif[0m.
+[WARN 04:21:17] No [1;34m404[0m catcher registered. Using Rocket default.
+[INFO 04:21:17] [32mResponse succeeded.[0m
+[INFO 04:59:17] [32mOPTIONS[0m [34m/authorization[0m:
+[ERROR 04:59:17] No matching routes for [32mOPTIONS[0m [34m/authorization[0m.
+[WARN 04:59:17] No [1;34m404[0m catcher registered. Using Rocket default.
+[INFO 04:59:17] [32mResponse succeeded.[0m
+[WARN 05:04:49] Received SIGINT. Requesting shutdown.
+[INFO 05:04:49] Shutdown requested. Waiting for pending I/O...
+[INFO 05:04:49] Graceful shutdown completed successfully.
+[INFO 05:12:10] Configured for [4mdebug[0m.
+[INFO 05:12:10] address: [1;39m127.0.0.1[0m
+[INFO 05:12:10] port: [1;39m8000[0m
+[INFO 05:12:10] workers: [1;39m12[0m
+[INFO 05:12:10] max blocking threads: [1;39m512[0m
+[INFO 05:12:10] ident: [1;39mRocket[0m
+[INFO 05:12:10] IP header: [1;39mX-Real-IP[0m
+[INFO 05:12:10] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 05:12:10] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 05:12:10] http/2: [1;39mtrue[0m
+[INFO 05:12:10] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 05:12:10] tls: [1;39mdisabled[0m
+[INFO 05:12:10] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 05:12:10] log level: [1;39mnormal[0m
+[INFO 05:12:10] cli colors: [1;39mtrue[0m
+[INFO 05:12:10] [35mRoutes[0m:
+[INFO 05:12:10] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 05:12:10] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 05:12:10] [32mGET[0m [4;34m/cors[0m[34m/<status>[0m
+[INFO 05:12:10] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 05:12:10] [35mFairings[0m:
+[INFO 05:12:10] [1;39mCORS[0m ([1;34mignite, request, response[0m)
+[INFO 05:12:10] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 05:12:10] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 05:12:10] [35mShield[0m:
+[INFO 05:12:10] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 05:12:10] X-Content-Type-Options: [39mnosniff[0m
+[INFO 05:12:10] Permissions-Policy: [39minterest-cohort=()[0m
+[WARN 05:12:10] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 05:12:33] Verifying origin: http://127.0.0.1:5501
+[INFO 05:12:33] Origin does not match anything
+[ERROR 05:12:33] CORS Error: Origin 'http://127.0.0.1:5501' is not allowed to request
+[INFO 05:12:33] [32mGET[0m [34m/cors/403[0m:
+[INFO 05:12:33] Matched: [32mGET[0m [4;34m/cors[0m[34m/<status>[0m
+[INFO 05:12:33] [1;39mOutcome: [0m[31mError[0m([39m403 Forbidden[0m)
+[WARN 05:12:33] No [1;34m403[0m catcher registered. Using Rocket default.
+[INFO 05:12:33] [32mResponse succeeded.[0m
+[WARN 05:13:06] Received SIGINT. Requesting shutdown.
+[INFO 05:13:06] Shutdown requested. Waiting for pending I/O...
+[INFO 05:13:08] Graceful shutdown completed successfully.
+[INFO 05:13:10] Configured for [4mdebug[0m.
+[INFO 05:13:10] address: [1;39m127.0.0.1[0m
+[INFO 05:13:10] port: [1;39m8000[0m
+[INFO 05:13:10] workers: [1;39m12[0m
+[INFO 05:13:10] max blocking threads: [1;39m512[0m
+[INFO 05:13:10] ident: [1;39mRocket[0m
+[INFO 05:13:10] IP header: [1;39mX-Real-IP[0m
+[INFO 05:13:10] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 05:13:10] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 05:13:10] http/2: [1;39mtrue[0m
+[INFO 05:13:10] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 05:13:10] tls: [1;39mdisabled[0m
+[INFO 05:13:10] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 05:13:10] log level: [1;39mnormal[0m
+[INFO 05:13:10] cli colors: [1;39mtrue[0m
+[INFO 05:13:10] [35mRoutes[0m:
+[INFO 05:13:10] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 05:13:10] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 05:13:10] [32mGET[0m [4;34m/cors[0m[34m/<status>[0m
+[INFO 05:13:10] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 05:13:10] [35mFairings[0m:
+[INFO 05:13:10] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 05:13:10] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 05:13:10] [1;39mCORS[0m ([1;34mignite, request, response[0m)
+[INFO 05:13:10] [35mShield[0m:
+[INFO 05:13:10] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 05:13:10] Permissions-Policy: [39minterest-cohort=()[0m
+[INFO 05:13:10] X-Content-Type-Options: [39mnosniff[0m
+[WARN 05:13:10] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 05:13:20] Verifying origin: http://127.0.0.1:5501
+[INFO 05:13:20] Origin does not match anything
+[ERROR 05:13:20] CORS Error: Origin 'http://127.0.0.1:5501' is not allowed to request
+[INFO 05:13:20] [32mGET[0m [34m/cors/403[0m:
+[INFO 05:13:20] Matched: [32mGET[0m [4;34m/cors[0m[34m/<status>[0m
+[INFO 05:13:20] [1;39mOutcome: [0m[31mError[0m([39m403 Forbidden[0m)
+[WARN 05:13:20] No [1;34m403[0m catcher registered. Using Rocket default.
+[INFO 05:13:20] [32mResponse succeeded.[0m
+[INFO 05:15:58] Verifying origin: http://127.0.0.1:5501
+[INFO 05:15:58] Origin does not match anything
+[ERROR 05:15:58] CORS Error: Origin 'http://127.0.0.1:5501' is not allowed to request
+[INFO 05:15:58] [32mGET[0m [34m/cors/403[0m:
+[INFO 05:15:58] Matched: [32mGET[0m [4;34m/cors[0m[34m/<status>[0m
+[INFO 05:15:58] [1;39mOutcome: [0m[31mError[0m([39m403 Forbidden[0m)
+[WARN 05:15:58] No [1;34m403[0m catcher registered. Using Rocket default.
+[INFO 05:15:58] [32mResponse succeeded.[0m
+[WARN 05:19:30] Received SIGINT. Requesting shutdown.
+[INFO 05:19:30] Shutdown requested. Waiting for pending I/O...
+[INFO 05:19:30] Graceful shutdown completed successfully.
+[INFO 05:19:41] Configured for [4mdebug[0m.
+[INFO 05:19:41] address: [1;39m127.0.0.1[0m
+[INFO 05:19:41] port: [1;39m8000[0m
+[INFO 05:19:41] workers: [1;39m12[0m
+[INFO 05:19:41] max blocking threads: [1;39m512[0m
+[INFO 05:19:41] ident: [1;39mRocket[0m
+[INFO 05:19:41] IP header: [1;39mX-Real-IP[0m
+[INFO 05:19:41] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 05:19:41] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 05:19:41] http/2: [1;39mtrue[0m
+[INFO 05:19:41] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 05:19:41] tls: [1;39mdisabled[0m
+[INFO 05:19:41] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 05:19:41] log level: [1;39mnormal[0m
+[INFO 05:19:41] cli colors: [1;39mtrue[0m
+[INFO 05:19:41] [35mRoutes[0m:
+[INFO 05:19:41] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 05:19:41] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 05:19:41] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 05:19:41] [35mFairings[0m:
+[INFO 05:19:41] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 05:19:41] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 05:19:41] [1;39mCross-Origin-Resource-Sharing Fairing[0m ([1;34mresponse[0m)
+[INFO 05:19:41] [35mShield[0m:
+[INFO 05:19:41] Permissions-Policy: [39minterest-cohort=()[0m
+[INFO 05:19:41] X-Frame-Options: [39mSAMEORIGIN[0m
+[INFO 05:19:41] X-Content-Type-Options: [39mnosniff[0m
+[WARN 05:19:41] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 05:19:43] [32mOPTIONS[0m [34m/authorization[0m:
+[ERROR 05:19:43] No matching routes for [32mOPTIONS[0m [34m/authorization[0m.
+[WARN 05:19:43] No [1;34m404[0m catcher registered. Using Rocket default.
+[INFO 05:19:43] [32mResponse succeeded.[0m
+[INFO 05:20:06] [32mOPTIONS[0m [34m/authorization[0m:
+[ERROR 05:20:06] No matching routes for [32mOPTIONS[0m [34m/authorization[0m.
+[WARN 05:20:06] No [1;34m404[0m catcher registered. Using Rocket default.
+[INFO 05:20:06] [32mResponse succeeded.[0m
+[WARN 05:21:24] Received SIGINT. Requesting shutdown.
+[INFO 05:21:24] Shutdown requested. Waiting for pending I/O...
+[INFO 05:21:24] Graceful shutdown completed successfully.
+[INFO 05:21:30] Configured for [4mdebug[0m.
+[INFO 05:21:30] address: [1;39m127.0.0.1[0m
+[INFO 05:21:30] port: [1;39m8000[0m
+[INFO 05:21:30] workers: [1;39m12[0m
+[INFO 05:21:30] max blocking threads: [1;39m512[0m
+[INFO 05:21:30] ident: [1;39mRocket[0m
+[INFO 05:21:30] IP header: [1;39mX-Real-IP[0m
+[INFO 05:21:30] limits: [1;39mbytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB[0m
+[INFO 05:21:30] temp dir: [1;39mC:\Users\radio\AppData\Local\Temp\[0m
+[INFO 05:21:30] http/2: [1;39mtrue[0m
+[INFO 05:21:30] keep-alive: [1;39m5[0m[1;39ms[0m
+[INFO 05:21:30] tls: [1;39mdisabled[0m
+[INFO 05:21:30] shutdown: [1;39mctrlc = true, force = true, grace = 2s, mercy = 3s[0m
+[INFO 05:21:30] log level: [1;39mnormal[0m
+[INFO 05:21:30] cli colors: [1;39mtrue[0m
+[INFO 05:21:30] [35mRoutes[0m:
+[INFO 05:21:30] [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 05:21:30] [36m([0m[39mregistration[0m[36m)[0m [32mPOST[0m [34m/registration[0m
+[INFO 05:21:30] [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 05:21:30] [36m([0m[39mcreate_task[0m[36m)[0m [32mPOST[0m [4;34m/create[0m[34m/task[0m
+[INFO 05:21:30] [35mFairings[0m:
+[INFO 05:21:30] [1;39mPostgres[0m ([1;34mignite[0m)
+[INFO 05:21:30] [1;39mCross-Origin-Resource-Sharing Fairing[0m ([1;34mresponse[0m)
+[INFO 05:21:30] [1;39mShield[0m ([1;34mliftoff, response, singleton[0m)
+[INFO 05:21:30] [35mShield[0m:
+[INFO 05:21:30] Permissions-Policy: [39minterest-cohort=()[0m
+[INFO 05:21:30] X-Content-Type-Options: [39mnosniff[0m
+[INFO 05:21:30] X-Frame-Options: [39mSAMEORIGIN[0m
+[WARN 05:21:30] [1;39mRocket has launched from [4mhttp://127.0.0.1:8000[0m
+[INFO 05:21:39] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 05:21:39] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 05:21:39] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:21:39] [32mResponse succeeded.[0m
+[INFO 05:22:38] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 05:22:38] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 05:22:38] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:22:38] [32mResponse succeeded.[0m
+[INFO 05:23:06] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 05:23:06] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 05:23:06] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:23:06] [32mResponse succeeded.[0m
+[INFO 05:29:20] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 05:29:20] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 05:29:20] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:29:20] [32mResponse succeeded.[0m
+[INFO 05:32:21] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 05:32:21] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 05:32:21] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:32:21] [32mResponse succeeded.[0m
+[INFO 05:32:21] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 05:32:21] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 05:32:22] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:32:22] [32mResponse succeeded.[0m
+[INFO 05:33:51] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 05:33:51] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 05:33:51] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:33:51] [32mResponse succeeded.[0m
+[INFO 05:33:51] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 05:33:51] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 05:33:51] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:33:51] [32mResponse succeeded.[0m
+[INFO 05:34:29] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 05:34:29] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 05:34:29] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:34:29] [32mResponse succeeded.[0m
+[INFO 05:34:29] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 05:34:29] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 05:34:29] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:34:29] [32mResponse succeeded.[0m
+[INFO 05:34:59] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 05:34:59] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 05:34:59] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:34:59] [32mResponse succeeded.[0m
+[INFO 05:34:59] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 05:34:59] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 05:34:59] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:34:59] [32mResponse succeeded.[0m
+[INFO 05:35:29] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 05:35:29] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 05:35:29] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:35:29] [32mResponse succeeded.[0m
+[INFO 05:35:29] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 05:35:29] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 05:35:29] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:35:29] [32mResponse succeeded.[0m
+[INFO 05:36:25] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 05:36:25] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 05:36:25] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:36:25] [32mResponse succeeded.[0m
+[INFO 05:36:25] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 05:36:25] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 05:36:25] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:36:25] [32mResponse succeeded.[0m
+[INFO 05:37:01] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 05:37:01] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 05:37:01] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:37:01] [32mResponse succeeded.[0m
+[INFO 05:37:01] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 05:37:01] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 05:37:01] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:37:01] [32mResponse succeeded.[0m
+[INFO 05:37:55] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 05:37:55] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 05:37:55] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:37:55] [32mResponse succeeded.[0m
+[INFO 05:37:55] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 05:37:55] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 05:37:55] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 05:37:55] [32mResponse succeeded.[0m
+[INFO 06:04:39] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 06:04:39] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 06:04:39] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 06:04:39] [32mResponse succeeded.[0m
+[INFO 06:04:39] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 06:04:39] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 06:04:39] [1;39mOutcome: [0m[32mSuccess[0m([39m404 Not Found[0m)
+[INFO 06:04:39] [32mResponse succeeded.[0m
+[INFO 06:05:40] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 06:05:40] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 06:05:40] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 06:05:40] [32mResponse succeeded.[0m
+[INFO 06:05:40] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 06:05:40] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 06:05:40] [1;39mOutcome: [0m[32mSuccess[0m([39m404 Not Found[0m)
+[INFO 06:05:40] [32mResponse succeeded.[0m
+[INFO 06:07:00] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 06:07:00] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 06:07:00] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 06:07:00] [32mResponse succeeded.[0m
+[INFO 06:07:00] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 06:07:00] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 06:07:00] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 06:07:00] [32mResponse succeeded.[0m
+[INFO 06:07:31] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 06:07:31] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 06:07:31] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 06:07:31] [32mResponse succeeded.[0m
+[INFO 06:07:31] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 06:07:31] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 06:07:31] [1;39mOutcome: [0m[32mSuccess[0m([39m404 Not Found[0m)
+[INFO 06:07:31] [32mResponse succeeded.[0m
+[INFO 06:08:18] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 06:08:18] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 06:08:18] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 06:08:18] [32mResponse succeeded.[0m
+[INFO 06:08:18] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 06:08:18] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 06:08:18] [1;39mOutcome: [0m[32mSuccess[0m([39m404 Not Found[0m)
+[INFO 06:08:18] [32mResponse succeeded.[0m
+[INFO 06:09:01] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 06:09:01] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 06:09:01] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 06:09:01] [32mResponse succeeded.[0m
+[INFO 06:09:01] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 06:09:01] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 06:09:01] [1;39mOutcome: [0m[32mSuccess[0m([39m404 Not Found[0m)
+[INFO 06:09:01] [32mResponse succeeded.[0m
+[INFO 06:09:34] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 06:09:34] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 06:09:34] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 06:09:34] [32mResponse succeeded.[0m
+[INFO 06:09:34] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 06:09:34] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 06:09:34] [1;39mOutcome: [0m[32mSuccess[0m([39m404 Not Found[0m)
+[INFO 06:09:34] [32mResponse succeeded.[0m
+[INFO 06:09:44] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 06:09:44] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 06:09:44] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 06:09:44] [32mResponse succeeded.[0m
+[INFO 06:09:44] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 06:09:44] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 06:09:44] [1;39mOutcome: [0m[32mSuccess[0m([39m404 Not Found[0m)
+[INFO 06:09:44] [32mResponse succeeded.[0m
+[INFO 06:09:52] [32mOPTIONS[0m [34m/authorization[0m:
+[INFO 06:09:52] Matched: [36m([0m[39meverything[0m[36m)[0m [32mOPTIONS[0m [34m/<_..>[0m
+[INFO 06:09:52] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 06:09:52] [32mResponse succeeded.[0m
+[INFO 06:09:52] [32mPOST[0m [34m/authorization[0m [33mapplication/json[0m:
+[INFO 06:09:52] Matched: [36m([0m[39mauthorization[0m[36m)[0m [32mPOST[0m [34m/authorization[0m
+[INFO 06:09:52] [1;39mOutcome: [0m[32mSuccess[0m([39m200 OK[0m)
+[INFO 06:09:52] [32mResponse succeeded.[0m
+[WARN 06:23:00] Received SIGINT. Requesting shutdown.
+[INFO 06:23:00] Shutdown requested. Waiting for pending I/O...
+[INFO 06:23:00] Graceful shutdown completed successfully.

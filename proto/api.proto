@@ -1,0 +1,14 @@
+syntax = "proto3";
+package api;
+
+service ParserIntegrationService {
+  rpc GetParsedContent (ParserQueryRequest) returns (ParsedContentResponse);
+}
+
+message ParserQueryRequest {
+  int64 query_id = 1;
+}
+
+message ParsedContentResponse {
+  repeated string parsed_terms = 2;
+}

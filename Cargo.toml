@@ -1,0 +1,28 @@
+[package]
+name = "external-api"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rocket = { version = "0.5.1", features = ["json"] }
+rocket_cors = "0.6.0"
+serde = { version = "1.0.218", features = ["derive"] }
+jsonwebtoken = "9.3.1"
+chrono = { version = "0.4.40", features = ["serde"] }
+dotenvy = "0.15"
+sha2 = "0.10"
+fern = "0.7.1"
+log = "0.4.26"
+config = "0.15"
+tokio-postgres = { version = "0.7", features = ["with-chrono-0_4"] }
+deadpool-postgres = { version = "0.14.1", features = ["rt_tokio_1", "serde"] }
+tonic = "0.12"
+prost = "0.13.5"
+reqwest = "0.12.12"
+serde_json = "1.0.139"
+rustc-hash ="2.1.1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+futures = "0.3.31"
+
+[build-dependencies]
+tonic-build = "0.12.3"
