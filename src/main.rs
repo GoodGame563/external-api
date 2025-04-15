@@ -1,60 +1,48 @@
 mod structure;
 mod jwt;
 mod database_function;
-mod work_with_wb_api;
 
-use crate::jwt::{create_access_jwt};
+// External crates
+#[macro_use] 
+extern crate rocket;
 
-#[macro_use] extern crate rocket;
-use jwt::create_refresh_jwt;
+// Standard imports
+use chrono::Duration;
 use dotenvy::dotenv;
+use sha2::{Sha512, Digest};
+
+// Rocket imports
 use rocket::{
-    fairing::AdHoc, 
-    Build, 
-    Rocket, 
+    fairing::{AdHoc, Fairing, Info, Kind}, 
     State,
-    http::Status,
+    http::{Status, Header, Method},
     request::{FromRequest, Outcome, Request},
     serde::json::Json,
+    Response,
+    response::stream::TextStream,
 };
-use work_with_wb_api::{get_root_from_url, get_top_10_ids_with_products, get_product_from_url};
-pub struct Cors;
-use rocket::fairing::{Fairing, Info, Kind};
-use rocket::http::Header;
-use rocket::Response;
-use serde::{Serialize,Deserialize};
-use chrono::{Utc, Duration};
-use sha2::digest::consts::False;
-use std::str::FromStr;
-use sha2::{Sha512, Digest};
-use tokio_postgres::NoTls;
-use structure::send_structures::{ErrorMessage, RequestMessage, Token, Tokens, UsedWord};
-use database_function::{connector::{User, UserSession}, create_full_weight_task};
-use deadpool_postgres::{Pool, ManagerConfig, RecyclingMethod, Runtime};
-use api::{
-    parser_integration_service_client::ParserIntegrationServiceClient,
-    ParserQueryRequest,
-};
-// use chrono::prelude::*;
 
+// Project imports
+use api::parser_integration_service_client::ParserIntegrationServiceClient;
+use crate::jwt::{create_access_jwt, create_refresh_jwt};
+use structure::send_structures::{ErrorMessage, Token, Tokens, History, Task};
+use structure::receive_structures::{CreateTask, EditTaskName, GetTask, EditTask};
+use database_function::{
+    function_postgre::{User, UserSession},
+    init_postgre_pools,
+    init_mongo_pools,
+    MixPoolError,
+    get_all_tasks,
+    update_task_name,
+    get_task_by_id,
+};
+use rocket_cors::{AllowedHeaders, AllowedOrigins};
+use database_function::connection_mongo::Pool as MongoPool;
+use deadpool_postgres::Pool as PostgresPool;
+
+// Proto module
 mod api {
     tonic::include_proto!("api");
-}
-
-
-fn from_url_get_id(url: &str) -> Option<i64> {
-    let id = url.split('/')
-        .skip_while(|&s| s != "catalog")
-        .nth(1)?;
-
-    if id.chars().all(|c| c.is_ascii_digit()) {
-        Some(match id.parse::<i64>() {
-            Ok(i) => i,
-            Err(_) => return None,
-        })
-    } else {
-        None
-    }
 }
 
 #[derive(Debug)]
@@ -72,334 +60,331 @@ impl<'r> FromRequest<'r> for AuthUser {
             Some(header) => header.strip_prefix("Bearer ").unwrap_or(header),
             None => return Outcome::Error((Status::Unauthorized, "Missing token".to_string())),
         };
-        let token_data = match jwt::validate_access_jwt(token) {
-            Ok(a) => a,
-            Err(e) => {
-                return Outcome::Error((
-                    Status::Unauthorized,
-                    format!("Invalid token: {}", e),
-                ))
-            }
-        };
-        Outcome::Success(AuthUser {
-            user_id: token_data.id,
-        })
+
+        match jwt::validate_access_jwt(token) {
+            Ok(token_data) => Outcome::Success(AuthUser { user_id: token_data.user_id }),
+            Err(e) => Outcome::Error((Status::Unauthorized, format!("Invalid token: {}", e))),
+        }
     }
-}
-
-#[derive(Debug, serde::Deserialize)]
-struct Config {
-    pg: deadpool_postgres::Config,
-}
-
-impl Config {
-    pub fn from_env() -> Result<Self, config::ConfigError> {
-        config::Config::builder()
-            .add_source(config::Environment::default().separator("__"))
-            .build()?
-            .try_deserialize()
-    }
-}
-
-async fn init_db_pool(rocket: Rocket<Build>) -> Rocket<Build> {
-    let figment = rocket.figment();
-    let pool_size: u32 = figment
-        .extract_inner("databases.postgres.pool_size")
-        .unwrap_or(20);
-
-    let cfg = Config::from_env().unwrap();
-    let mgr = deadpool_postgres::Manager::new(cfg.pg.get_pg_config().expect("Not find env file"), NoTls);
-    ManagerConfig {
-        recycling_method: RecyclingMethod::Fast,
-    };
-
-    let pool = Pool::builder(mgr)
-        .max_size(pool_size as usize)
-        .runtime(Runtime::Tokio1)
-        .build()
-        .unwrap();
-
-    rocket.manage(pool)
 }
 
 fn hash_str(path: &str) -> Result<String, std::io::Error> {
-    let bytes = path.as_bytes();
     let mut hasher = Sha512::new();
-    hasher.update(bytes);
+    hasher.update(path.as_bytes());
     Ok(format!("{:x}", hasher.finalize()))
 }
 
-fn setup_logger() -> Result<(), fern::InitError> {
-    fern::Dispatch::new()
-        .format(|out, message, record| {
-            out.finish(format_args!(
-                "[{} {}] {}",
-                record.level(),
-                chrono::Local::now().format("%H:%M:%S"),
-                message
-            ))
-        })
-        .level(log::LevelFilter::Info)
-        .chain(std::io::stdout())
-        .chain(fern::log_file("server.log")?)
-        .apply()?;
-    Ok(())
-}
-
 #[post("/authorization", data = "<data>")]
-async fn authorization(pool: &State<Pool>, data: Json<crate::structure::receive_structures::Enter<'_>>) -> (Status, Json<Result<Tokens, ErrorMessage>>) {
+async fn authorization(pool: &State<PostgresPool>, data: Json<crate::structure::receive_structures::Enter>) -> Result<(Status, Json<Tokens>), (Status, Json<ErrorMessage>)> {
     let access_life_time: chrono::TimeDelta = Duration::days(2);
     let refresh_life_time = Duration::weeks(2);
 
-    let hash_id = match hash_str(&format!("{}{}", data.email, data.password)) {
-        Ok(s) => s,
-        Err(e) => {
-            log::error!("Hash error: {}", e);
-            return (
-                Status::InternalServerError,
-                Json(Err(ErrorMessage {
-                    message: "hash error".to_string(),
-                    details: e.to_string(),
-                })),
-            );
-        }
-    };
+    let hash_id = hash_str(&format!("{}{}", data.email, data.password))
+        .map_err(|e| (
+            Status::InternalServerError,
+            Json(ErrorMessage {
+                message: "hash error".to_string(),
+                details: e.to_string(),
+            })
+        ))?;
 
-    let user = match User::find_by_id(pool, &hash_id).await {
-        Ok(Some(user)) => user,
-        Ok(None) => {
-            return (
-                Status::NotFound,
-                Json(Err(ErrorMessage {
-                    message: "user not found".to_string(),
-                    details: "doesn't exist".to_string(),
-                })),
-            );
-        }
-        Err(e) => {
-            return (
-                Status::InternalServerError,
-                Json(Err(ErrorMessage {
-                    message: "can't find".to_string(),
-                    details: e.to_string(),
-                })),
-            );
-        }
-    };
+    let user = User::find_by_id(pool, &hash_id).await
+        .map_err(|e| (
+            Status::InternalServerError,
+            Json(ErrorMessage {
+                message: "can't find".to_string(),
+                details: e.to_string(),
+            })
+        ))?
+        .ok_or((
+            Status::NotFound,
+            Json(ErrorMessage {
+                message: "user not found".to_string(),
+                details: "doesn't exist".to_string(),
+            })
+        ))?;
 
-    let access_token = match create_access_jwt(&user.id, access_life_time) {
-        Ok(a_t) => Token {
-            token: a_t,
+    let access_token = create_access_jwt(&user.id, access_life_time)
+        .map_err(|e| (
+            Status::InternalServerError,
+            Json(ErrorMessage {
+                message: "can't create access jwt".to_string(),
+                details: e.to_string(),
+            })
+        ))
+        .map(|token| Token {
+            token,
             life_time: access_life_time,
-        },
-        Err(e) => {
-            return (
-                Status::InternalServerError,
-                Json(Err(ErrorMessage {
-                    message: "can't create access jwt".to_string(),
-                    details: e.to_string(),
-                })),
-            );
-        }
-    };
+        })?;
 
-    let refresh_token = match create_refresh_jwt(&user.id, data.browser, data.device, data.os, refresh_life_time) {
-        Ok(r_t) => Token {
-            token: r_t,
+    let refresh_token = create_refresh_jwt(&user.id, &data.browser, &data.device, &data.os, refresh_life_time)
+        .map_err(|e| (
+            Status::InternalServerError,
+            Json(ErrorMessage {
+                message: "can't create refresh jwt".to_string(),
+                details: e.to_string(),
+            })
+        ))
+        .map(|token| Token {
+            token,
             life_time: refresh_life_time,
-        },
-        Err(e) => {
-            return (
-                Status::InternalServerError,
-                Json(Err(ErrorMessage {
-                    message: "can't create refresh jwt".to_string(),
-                    details: e.to_string(),
-                })),
-            );
-        }
-    };
+        })?;
 
-    match database_function::create_client_session(pool, &UserSession{ id_user: user.id, browser: data.browser.to_string(), device: data.device.to_string(), os: data.os.to_string()}).await{
-        Ok(_) => (Status::Ok, Json(Ok(Tokens{ access_token, refresh_token}))),
-        Err(e) => (
-            Status::InternalServerError, 
-            Json(Err(ErrorMessage {
+    database_function::create_client_session(pool, &user.id, &data.browser, &data.device, &data.os).await
+        .map_err(|e| (
+            Status::InternalServerError,
+            Json(ErrorMessage {
                 message: "can't create client session".to_string(),
                 details: e.to_string(),
-            }))
-        ),
-    }
+            })
+        ))
+        .and_then(|created| {
+            Ok((Status::Ok, Json(Tokens { access_token, refresh_token })))
+        })
 }
 
 #[post("/registration", data = "<data>")]
-async fn registration(pool: &State<Pool>, data: Json<crate::structure::receive_structures::Registration<'_>>) -> (Status, Json<Result<(), ErrorMessage>>) {
-    let hash_id = match hash_str(&format!("{}{}", data.email, data.password)) {
-        Ok(s) => s,
-        Err(e) => {
-            log::error!("Hash error: {}", e);
-            return (
-                Status::InternalServerError,
-                Json(Err(ErrorMessage {
-                    message: "hash error".to_string(),
-                    details: e.to_string(),
-                })),
-            );
-        }
-    };
-    
-    match User::find_by_email(pool, data.email).await {
-        Ok(Some(_)) => (
-            Status::Conflict, 
-            Json(Err(ErrorMessage {
+async fn registration(pool: &State<PostgresPool>, data: Json<crate::structure::receive_structures::Registration>) -> Result<Status, (Status, Json<ErrorMessage>)> {
+    let hash_id = hash_str(&format!("{}{}", data.email, data.password))
+        .map_err(|e| (
+            Status::InternalServerError,
+            Json(ErrorMessage {
+                message: "hash error".to_string(),
+                details: e.to_string(),
+            })
+        ))?;
+
+    match User::find_by_email(pool, &data.email).await {
+        Ok(true) => Err((
+            Status::Conflict,
+            Json(ErrorMessage {
                 message: "user with this email already exisist".to_string(),
                 details: "please use function enter".to_string(),
-            }))
-        ),
-        Ok(None) => {
-            let user= User { id: hash_id, email: data.email.to_string(), name: data.name.to_string(), is_paid: false, is_admin: false };
-            match User::create(&user, pool).await{
-                Ok(_) => (
-                    Status::Created, 
-                    Json(Ok(()))
-                ),
-                Err(e) =>  (
+            })
+        )),
+        Ok(false) => {
+            let user = User {
+                id: hash_id,
+                email: data.email.to_string(),
+                name: data.name.to_string(),
+                is_admin: false
+            };
+            User::create(&user, pool).await
+                .map(|_| Status::Created)
+                .map_err(|e| (
                     Status::InternalServerError,
-                    Json(Err(ErrorMessage {
-                        message: "can`t create new user".to_string(),
+                    Json(ErrorMessage {
+                        message: "can't create new user".to_string(),
                         details: e.to_string(),
-                    })),
-                ),
-            }
+                    })
+                ))
         },
-        Err(e) => (
+        Err(e) => Err((
             Status::InternalServerError,
-            Json(Err(ErrorMessage {
+            Json(ErrorMessage {
                 message: "database not available".to_string(),
                 details: e.to_string(),
-            })),
-        ),
+            })
+        )),
     }
 }
 
 #[post("/task", data = "<data>")]
-async fn create_task(pool: &State<Pool>, data: Json<crate::structure::receive_structures::CreateTask<'_>>, user: AuthUser) -> Result<(Status, Json<RequestMessage>),(Status, Json<ErrorMessage>)> {
-    let mut client = ParserIntegrationServiceClient::connect("http://localhost:50051").await.map_err(|e| (
-        Status::InternalServerError,
-        Json(ErrorMessage {
-            message: "grpc client error".to_string(),
-            details: e.to_string(),
-        }),
-    ))?;
-    let id = match from_url_get_id(data.url) {
-        Some(i) => i,
-        None => return Err((
-            Status::BadRequest,
+async fn create_task(pool: &State<PostgresPool>, mongo_pool: &State<MongoPool>, data: Json<CreateTask>, user: AuthUser) -> Result<Status, (Status, Json<ErrorMessage>)> {
+    database_function::create_task(
+        pool, 
+        mongo_pool, 
+        &user.user_id, 
+        &data.main.name, 
+        &data.main, 
+        &data.products, 
+        data.used_words.iter().map(String::as_str).collect::<Vec<&str>>(), 
+        data.unused_words.iter().map(String::as_str).collect::<Vec<&str>>()
+    ).await
+    .map(|_| Status::Created)
+    .map_err(|e| match e {
+        MixPoolError::Postgres(e) => (
+            Status::InternalServerError,
             Json(ErrorMessage {
-                message: "Url not work".to_string(),
-                details: "".to_string(),
-            }),
-        )),
-    }; 
-    let request = tonic::Request::new(ParserQueryRequest { query_id: id });
-    let response = client.get_parsed_content(request).await.map_err(|e| (
-        Status::InternalServerError,
-        Json(ErrorMessage {
-            message: "grpc server return".to_string(),
-            details: e.to_string(),
-        }),
-    ))?;
+                message: "can't create task side postgres".to_string(),
+                details: e.to_string(),
+            })
+        ),
+        MixPoolError::Mongo(e) => (
+            Status::InternalServerError,
+            Json(ErrorMessage {
+                message: "can't create task side mongo".to_string(),
+                details: e.to_string(),
+            })
+        ),
+        MixPoolError::Custom(e) => (
+            Status::InternalServerError,
+            Json(ErrorMessage {
+                message: "can't create task side idk is not exists".to_string(),
+                details: e.to_string(),
+            })
+        ),
+    })
+}
 
-    let mut words:Vec<String> = response.into_inner().parsed_terms;
-    let second_part = words.split_off(10);
-    let first_part = words;
-    let mut tasks = Vec::new();
-    for word in second_part.clone(){
-        tasks.push(tokio::spawn(async move {
-            let result = get_root_from_url(&word).await;
-            result
-        }));
-    }
-    let results = futures::future::join_all(tasks).await;
-    let mut roots= Vec::new();
-    for r in results {
-        let root = r.map_err(|e| (
+#[post("/task", data = "<data>")]
+async fn edit_task(pool: &State<PostgresPool>, mongo_pool: &State<MongoPool>, data: Json<EditTask>, user: AuthUser) -> Result<Status, (Status, Json<ErrorMessage>)> {
+    database_function::regenerate_task(
+        pool, 
+        mongo_pool, 
+        &data.id,
+        &user.user_id, 
+        &data.main, 
+        &data.products, 
+        data.used_words.iter().map(String::as_str).collect::<Vec<&str>>(), 
+        data.unused_words.iter().map(String::as_str).collect::<Vec<&str>>()
+    ).await
+    .map(|_| Status::Created)
+    .map_err(|e| match e {
+        MixPoolError::Postgres(e) => (
             Status::InternalServerError,
             Json(ErrorMessage {
-                message: "futures error v1".to_string(),
+                message: "can't create task side postgres".to_string(),
                 details: e.to_string(),
-            }),
-        ))?.map_err(|e| (
+            })
+        ),
+        MixPoolError::Mongo(e) => (
             Status::InternalServerError,
             Json(ErrorMessage {
-                message: "serialize error".to_string(),
+                message: "can't create task side mongo".to_string(),
                 details: e.to_string(),
-            }),
+            })
+        ),
+        MixPoolError::Custom(e) => (
+            Status::InternalServerError,
+            Json(ErrorMessage {
+                message: "can't create task side idk is not exists".to_string(),
+                details: e.to_string(),
+            })
+        ),
+    })
+}
+
+#[get("/words/<product_id>")]
+async fn get_words_from_url(product_id: i32) -> Result<(Status, Json<Vec<String>>), (Status, Json<ErrorMessage>)> {
+    let mut client = ParserIntegrationServiceClient::connect("http://localhost:50051")
+        .await
+        .map_err(|e| (
+            Status::InternalServerError,
+            Json(ErrorMessage {
+                message: "Failed to create parser client".to_string(),
+                details: e.to_string(),
+            })
         ))?;
-        roots.push(root);
-    }
-    let processed = get_top_10_ids_with_products(&roots);
-    let mut competitor_product= Vec::new();
-    let mut ids_competisions = Vec::new();
-    for pr in processed{
-        competitor_product.push(pr.1);
-        ids_competisions.push(pr.0 as i32);
-    }
-    let main_product = get_product_from_url(id as u32).await.map_err(|e| (
-        Status::InternalServerError,
-        Json(ErrorMessage {
-            message: "futures error v2".to_string(),
-            details: e.to_string(),
-        }),
-    ))?;
-    let task  = create_full_weight_task(pool, second_part, first_part, competitor_product, main_product, user.user_id).await.map_err(|e| (
-        Status::InternalServerError,
-        Json(ErrorMessage {
-            message: "futures error v3".to_string(),
-            details: e.to_string(),
-        }),
-    ))?;
-    let mut words = Vec::new();
-    for u_w in task.used_words{
-        words.push(UsedWord{ id_word: u_w.0 as i64, word: u_w.1, used: true });
-    }
-    for u_w in task.unused_words{
-        words.push(UsedWord{ id_word: u_w.0 as i64, word: u_w.1, used: false });
-    }
-    return Ok((Status::Ok, 
-    Json(RequestMessage{ id_tasks: task.task_id as i64, id_competision: ids_competisions, words: words } 
-    )));
+    let request = tonic::Request::new(api::ParserQueryRequest { query_id: product_id });
+    
+    let response = client
+        .get_parsed_content(request)
+        .await
+        .map_err(|e| (
+            Status::InternalServerError,
+            Json(ErrorMessage {
+                message: "Failed to parse content".to_string(),
+                details: e.to_string(),
+            })
+        ))?;
+
+    let parsed_terms = response.into_inner().parsed_terms;
+    Ok((Status::Ok, Json(parsed_terms)))
 }
 
-#[options("/<_..>")]
-fn everything() -> Status {
-    Status::Ok
-}
-
-#[rocket::async_trait]
-impl Fairing for Cors {
-    fn info(&self) -> Info {
-        Info {
-            name: "Cross-Origin-Resource-Sharing Fairing",
-            kind: Kind::Response,
+#[post("/task", data = "<task_id>")]
+async fn get_task(task_id: Json<GetTask>, user: AuthUser, pool: &State<MongoPool>) -> Result<(Status, Json<Task>), (Status, Json<ErrorMessage>)> {
+    get_task_by_id(&pool, &user.user_id, task_id.id).await
+        .map(|task| {
+            (Status::Ok, Json(task))
+        })
+        .map_err(|e| match e {
+            MixPoolError::Postgres(e) => (
+                Status::InternalServerError,
+                Json(ErrorMessage {
+                    message: "can't get task side postgres is not work".to_string(),
+                    details: e.to_string(),
+                })
+            ),
+            MixPoolError::Mongo(e) => (
+                Status::InternalServerError,
+                Json(ErrorMessage {
+                    message: "can't get task side mongo".to_string(),
+                    details: e.to_string(),
+                })
+            ),
+            MixPoolError::Custom(e) => (
+                Status::InternalServerError,
+                Json(ErrorMessage {
+                    message: "task is not exist now".to_string(),
+                    details: e.to_string(),
+                })
+            ),
         }
-    }
-
-    async fn on_response<'r>(&self, _request: &'r Request<'_>, response: &mut Response<'r>) {
-        response.set_header(Header::new("Access-Control-Allow-Origin", "http://localhost:5501"));
-        response.set_header(Header::new(
-            "Access-Control-Allow-Methods",
-            "POST, PATCH, PUT, DELETE, HEAD, OPTIONS, GET",
-        ));
-        response.set_header(Header::new("Access-Control-Allow-Headers", "*"));
-        response.set_header(Header::new("Access-Control-Allow-Credentials", "true"));
-    }
+    )
 }
+#[put("/task", data = "<data>")]
+async fn edit_task_name(pool: &State<PostgresPool>, data:Json<EditTaskName>) -> Result<Status, (Status, Json<ErrorMessage>)> {
+    update_task_name(pool, data.id, &data.new_name).await.map_err(|e| (
+        Status::InternalServerError,
+        Json(ErrorMessage {
+            message: "can't update task name".to_string(),
+            details: e.to_string(),
+        })
+    ))?;
+    Ok(Status::Accepted)
+}
+
+#[get("/history")]
+async fn get_history(user: AuthUser, pool: &State<PostgresPool>) -> Result<(Status, Json<History>), (Status, Json<ErrorMessage>)> {
+    get_all_tasks(pool, &user.user_id).await
+        .map(|history| (Status::Ok, Json(history)))
+        .map_err(|e| (
+            Status::InternalServerError,
+            Json(ErrorMessage {
+                message: "can't get history".to_string(),
+                details: e.to_string(),
+            })
+        ))
+}
+
+// #[get("/infinite-hellos")]
+// async fn hello() -> TextStream![&'static str] {
+//     TextStream! {
+//         let mut interval = interval(tokio_duration::from_secs(1));
+//         loop {
+//             yield "hello";
+//             interval.tick().await;
+//         }
+//     }
+// }
+
 #[launch]
-fn rocket() -> _ {
+async fn rocket() -> _ {
     dotenv().ok();
-    setup_logger().unwrap();
-    rocket::build().attach(Cors).attach(AdHoc::on_ignite("Postgres", |rocket| async move {
-        init_db_pool(rocket).await
-    })).mount("/", routes![authorization, registration, everything])
-    .mount("/create", routes![create_task])
+    let allowed_origins = AllowedOrigins::some_exact(&["http://localhost:3000"]);
+
+    let cors = rocket_cors::CorsOptions {
+        allowed_origins,
+        allowed_methods: vec![Method::Get, Method::Post, Method::Put].into_iter().map(From::from).collect(),
+        allowed_headers: AllowedHeaders::all(),
+        allow_credentials: true,
+        ..Default::default()
+    }
+    .to_cors().unwrap();
+    
+    rocket::build()
+        .attach(AdHoc::on_ignite("Postgres", |rocket| async move {
+            init_postgre_pools(rocket).await
+        }))
+        .attach(AdHoc::on_ignite("MongoDB", |rocket| async move {
+            init_mongo_pools(rocket).await
+        }))
+        .mount("/", routes![authorization, registration])
+        .mount("/get", routes![get_words_from_url, get_history, get_task])
+        .mount("/create", routes![create_task])
+        .mount("/edit", routes![edit_task_name])
+        .mount("/regenerate", routes![edit_task])
+        .attach(cors)
 }

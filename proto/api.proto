@@ -6,7 +6,7 @@ service ParserIntegrationService {
 }
 
 message ParserQueryRequest {
-  int64 query_id = 1;
+  int32 query_id = 1;
 }
 
 message ParsedContentResponse {

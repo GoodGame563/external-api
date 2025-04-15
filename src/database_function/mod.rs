@@ -1,111 +1,223 @@
-pub mod connector;
-use deadpool_postgres::{Pool, PoolError};
-use connector::{Brand, Keyword, Product, Task, TaskKeyword, UserSession, ProductCompetitor};
-use crate::structure::parse_structures_v1::Product as ProductParseV1;
-use crate::structure::parse_structures_v2::Product as ProductParseV2;
-use chrono::{DateTime, Utc};
+pub mod function_postgre;
+pub mod function_mongo;
+mod connection_postgresql;
+pub mod connection_mongo;
 
+use deadpool_postgres::{Pool as PostgresPool, PoolError as PostgresPoolError};
+use connection_mongo::{Pool as MongoPool, PoolError as MongoPoolError};
+use rocket::{Build, Rocket};
+use function_postgre::UserSession;
+use tokio::task;
+use uuid::Uuid;
+use crate::structure::{receive_structures::{MainProduct, Product}, send_structures::{History, HistoryElement, Task, Product as SendProduct}};
 
-pub async fn check_client_session(pool: &Pool, id_user: &str, browser: &str, device:&str, os:&str) -> Result<Option<UserSession>, PoolError>{
-    let users =  UserSession::find_by_user_id(pool, id_user).await?;
-    for user in users{
-        if user.browser == browser && user.device == device && user.os == os{
-            return Ok(Some(user))
+pub enum MixPoolError {
+    Postgres(PostgresPoolError),
+    Mongo(MongoPoolError),
+    Custom(String),
+}
+
+pub async fn check_client_session_user_id(
+    pool: &PostgresPool,
+    id_user: &str,
+) -> Result<bool, PostgresPoolError> {
+    let users = UserSession::find_by_user_id(pool, id_user).await?;
+    if users.is_empty() {
+        return Ok(false);
+    }
+    Ok(true)
+}
+
+pub async fn check_client_session_id(
+    pool: &PostgresPool,
+    id: Uuid,
+) -> Result<bool, PostgresPoolError> {
+    UserSession::find_by_id(pool, &id).await.map(|us| {
+        if us.is_some() {
+            return Ok(true);
+        }
+        Ok(false)
+    })?
+}
+
+pub async fn create_client_session(
+    pool: &PostgresPool,
+    id_user: &str,
+    browser: &str,
+    os: &str,
+    device: &str,
+) -> Result<bool, PostgresPoolError> {
+    for cs in UserSession::find_by_user_id(pool, id_user).await? {
+        if browser == cs.browser && os == cs.os && device == cs.device {
+            return Ok(false);
         }
     }
-    Ok(None)
+    UserSession::create(id_user, browser, device, os, pool).await?;
+    Ok(true)
 }
 
+pub async fn delete_client_session(
+    pool: &PostgresPool,
+    id: Uuid,
+) -> Result<(), PostgresPoolError> {
+    UserSession::delete_by_id(pool, id).await?;
+    Ok(())
+}
 
-pub async fn create_client_session(pool: &Pool, user_session: &UserSession) -> Result<(), PoolError>{
-    match check_client_session(pool, &user_session.id_user, &user_session.browser, &user_session.device, &user_session.os).await?{
-        Some(_) => Ok(()),
-        None => {
-            UserSession::create(&user_session, pool).await?;
-            Ok(())
+pub async fn create_task(
+    post_pool: &PostgresPool,
+    mongo_pool: &MongoPool,
+    user_id: &str,
+    name: &str,
+    main_product: &MainProduct,
+    competitors: &Vec<Product>,
+    used_words: Vec<&str>,
+    unused_words: Vec<&str>,
+) -> Result<(), MixPoolError> {
+    let competitors = competitors
+        .iter()
+        .map(|p| function_mongo::Product {
+            description: p.description.clone(),
+            id: p.id,
+            name: p.name.clone(),
+            root: p.root,
+            price: p.price,
+            review: p.review_rating,
+        })
+        .collect::<Vec<_>>();
+
+    let uuid = function_postgre::Task::create(name, user_id, post_pool)
+        .await
+        .map_err(MixPoolError::Postgres)?;
+
+    function_mongo::create_task(
+        mongo_pool,
+        user_id,
+        uuid,
+        function_mongo::Product {
+            description: main_product.description.clone(),
+            id: main_product.id,
+            name: main_product.name.clone(),
+            root: main_product.root,
+            price: 0,
+            review: 0.0,
         },
-    }
+        competitors,
+        used_words.into_iter().map(|s| s.to_string()).collect(),
+        unused_words.into_iter().map(|s| s.to_string()).collect(),
+    )
+    .await
+    .map_err(MixPoolError::Mongo)?;
+
+    Ok(())
 }
 
-pub struct WeightTaskAnswer{
-    pub task_id: i32,
-    pub used_words: Vec<(i32, String)>,
-    pub unused_words: Vec<(i32, String)>
+pub async fn regenerate_task(
+    post_pool: &PostgresPool,
+    mongo_pool: &MongoPool,
+    id: &Uuid,
+    user_id: &str,
+    main_product: &MainProduct,
+    competitors: &Vec<Product>,
+    used_words: Vec<&str>,
+    unused_words: Vec<&str>,
+) -> Result<(), MixPoolError> {
+    let competitors = competitors
+        .iter()
+        .map(|p| function_mongo::Product {
+            description: p.description.clone(),
+            id: p.id,
+            name: p.name.clone(),
+            root: p.root,
+            price: p.price,
+            review: p.review_rating,
+        })
+        .collect::<Vec<_>>();
+
+    function_postgre::Task::update_time(post_pool, id)
+        .await
+        .map_err(MixPoolError::Postgres)?;
+
+    function_mongo::update_task(
+        mongo_pool,
+        user_id,
+        id.clone(),
+        function_mongo::Product {
+            description: main_product.description.clone(),
+            id: main_product.id,
+            name: main_product.name.clone(),
+            root: main_product.root,
+            price: 0,
+            review: 0.0,
+        },
+        competitors,
+        used_words.into_iter().map(|s| s.to_string()).collect(),
+        unused_words.into_iter().map(|s| s.to_string()).collect(),
+    )
+    .await
+    .map_err(MixPoolError::Mongo)?;
+
+    Ok(())
 }
 
-pub async fn create_full_weight_task(pool: &Pool, used_words: Vec<String>, unused_words: Vec<String>, roots: Vec<&ProductParseV1>, main_product: ProductParseV2, user_id: String) -> Result<WeightTaskAnswer, PoolError>{
-    Brand{ 
-        id: main_product.brand_id, 
-        name: main_product.brand, 
-        description: "rofl".to_string(), 
-        created_at: chrono::offset::Utc::now() }.create(pool).await?;
-    
-    let main = Product{
-        id: main_product.id,
-        marketplace_id: 1,
-        name: main_product.name,
-        description: main_product.description,
-        brand_id: main_product.brand_id,
-        price: main_product.price,
-        rating: main_product.rating as f64,
-        url: format!("https://www.wildberries.ru/catalog/{}/detail.aspx?targetUrl=EX", main_product.id),
-        created_at: chrono::offset::Utc::now() ,
-        updated_at: chrono::offset::Utc::now(),
+pub async fn init_postgre_pools(rocket: Rocket<Build>) -> Rocket<Build> {
+    connection_postgresql::init_db_pool(rocket).await
+}
+
+pub async fn init_mongo_pools(rocket: Rocket<Build>) -> Rocket<Build> {
+    connection_mongo::init_db_pool(rocket).await
+}
+
+pub async fn get_all_tasks(
+    postgre_pool: &PostgresPool,
+    user_id: &str,
+) -> Result<History, PostgresPoolError> {
+    let tasks = function_postgre::Task::find_by_user_id(postgre_pool, user_id).await?.into_iter().map(|task| {HistoryElement{ id: task.id, name: task.name, created_at:task.created_at}}).collect();
+    Ok(History{
+        elements: tasks
+    })
+}
+
+pub async fn update_task_name(
+    postgre_pool: &PostgresPool,
+    id: Uuid,
+    name: &str,
+) -> Result<(), PostgresPoolError> {
+    function_postgre::Task::update_name(postgre_pool, id, name).await?;
+    Ok(())
+}
+
+pub async fn get_task_by_id(
+    mongo_pool: &MongoPool,
+    user_id: &str,
+    id: Uuid,
+) -> Result<Task, MixPoolError> {
+    let option_task = function_mongo::get_task(mongo_pool, user_id, id)
+    .await
+    .map_err(MixPoolError::Mongo)?; 
+    let real_task = option_task.ok_or(MixPoolError::Custom("Task not found".to_string()))?;
+    let task = Task {
+        main: SendProduct {
+            id: real_task.main_product.id,
+            root: real_task.main_product.root,
+            name: real_task.main_product.name,
+            brand: "".to_string(),
+            price: 0.0,
+            review_rating: 0.0,
+            description: real_task.main_product.description,
+        },
+        products: real_task.competitors.into_iter().map(|p| SendProduct {
+            id: p.id,
+            root: p.root,
+            name: p.name,
+            brand: "".to_string(),
+            price: p.price as f64,
+            review_rating: p.review as f64,
+            description: p.description,
+        }).collect(),
+        used_words: real_task.words_analysis.used_words,
+        unused_words: real_task.words_analysis.unused_words,
     };
-
-    let main_id = main.create(pool).await?;
-    let task_time = chrono::offset::Utc::now();
-    let task_id = Task{
-        id: 0,
-        user_id: Some(user_id),
-        product_id: Some(main_id),
-        photo_analysis_id: None,
-        reviews_analysis_id: None,
-        seo_analysis_id: None,
-        created_at: task_time,
-    }.create(pool).await?;
-    let mut used_words_in_table = Vec::new(); 
-
-    for u_w in used_words{
-        let keyword = Keyword::create(pool, &u_w).await?;
-        used_words_in_table.push((keyword.id, keyword.keyword));
-        TaskKeyword{ task_id, task_created_at: task_time, keyword_id: keyword.id, used_in_analysis: true }.create(pool).await?;
-    }
-
-    let mut unused_words_in_table = Vec::new(); 
-
-    for u_w in unused_words{
-        let keyword = Keyword::create(pool, &u_w).await?;
-        unused_words_in_table.push((keyword.id, keyword.keyword));
-        TaskKeyword{ task_id, task_created_at: task_time, keyword_id: keyword.id, used_in_analysis: false }.create(pool).await?;
-    }
-
-    for prod in roots{
-        Brand{ 
-            id: prod.brand_id as i32, 
-            name: prod.brand.clone(), 
-            description: "rofl".to_string(), 
-            created_at: chrono::offset::Utc::now() }.create(pool).await?;
-
-        let competitor_id = Product{
-            id: prod.id as i32,
-            marketplace_id: 1,
-            name: prod.name.clone(),
-            description: "rofl".to_string(),
-            brand_id: prod.brand_id as i32,
-            price: prod.sizes[0].price.total as f64 / 100.0,
-            rating: prod.rating as f64,
-            url:  format!("https://www.wildberries.ru/catalog/{}/detail.aspx?targetUrl=EX", prod.id),
-            created_at: chrono::offset::Utc::now() ,
-            updated_at: chrono::offset::Utc::now(),
-        }.create(pool).await?;
-        ProductCompetitor{
-            product_id: main_id,
-            competitor_id,
-            created_at: chrono::offset::Utc::now(),
-        }.create(pool).await?;
-    }
-
-    Ok(WeightTaskAnswer{task_id, used_words: used_words_in_table, unused_words: unused_words_in_table})
-
+    Ok(task)
+    
 }
