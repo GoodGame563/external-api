@@ -1,10 +1,10 @@
+use crate::database_function::connection_mongo::Pool;
+use crate::database_function::connection_mongo::PoolError;
 use mongodb::{
-    bson::{doc, DateTime, Binary},
+    bson::{doc, Binary, DateTime},
     Client, Collection,
 };
 use uuid::Uuid;
-use crate::database_function::connection_mongo::Pool;
-use crate::database_function::connection_mongo::PoolError;
 
 use serde::{Deserialize, Serialize};
 
@@ -64,12 +64,18 @@ pub async fn create_task<'a>(
         created_at: DateTime::now(),
         main_product,
         competitors,
-        words_analysis: WordsAnalysis { used_words, unused_words },
+        words_analysis: WordsAnalysis {
+            used_words,
+            unused_words,
+        },
         text_analyses: None,
         photo_analysis: None,
         review_analysis: None,
     };
-    collection.insert_one(task).await.map_err(|e| PoolError::from(e))?;
+    collection
+        .insert_one(task)
+        .await
+        .map_err(|e| PoolError::from(e))?;
     Ok(())
 }
 
@@ -82,22 +88,22 @@ pub async fn get_task<'a>(
     let collection: Collection<ProductAnalysis> = client.database(DB_NAME).collection(user_id);
     let uuid_bytes = id.as_bytes();
     let filter = doc! { "_id": Binary { subtype: mongodb::bson::spec::BinarySubtype::Generic, bytes: uuid_bytes.to_vec() } };
-    
-    let not_task = collection.find_one(filter).await.map_err(|e| PoolError::from(e))?;
-    let task = not_task.map(|doc| {
-        ProductAnalysis {
-            id: doc.id,
-            created_at: doc.created_at,
-            main_product: doc.main_product,
-            competitors: doc.competitors,
-            words_analysis: doc.words_analysis,
-            text_analyses: doc.text_analyses,
-            photo_analysis: doc.photo_analysis,
-            review_analysis: doc.review_analysis,
-        }
+
+    let not_task = collection
+        .find_one(filter)
+        .await
+        .map_err(|e| PoolError::from(e))?;
+    let task = not_task.map(|doc| ProductAnalysis {
+        id: doc.id,
+        created_at: doc.created_at,
+        main_product: doc.main_product,
+        competitors: doc.competitors,
+        words_analysis: doc.words_analysis,
+        text_analyses: doc.text_analyses,
+        photo_analysis: doc.photo_analysis,
+        review_analysis: doc.review_analysis,
     });
     Ok(task)
-    
 }
 
 pub async fn update_task<'a>(
@@ -111,7 +117,7 @@ pub async fn update_task<'a>(
 ) -> Result<(), PoolError> {
     let client = mongo_pool.get().await?;
     let collection: Collection<ProductAnalysis> = client.database(DB_NAME).collection(user_id);
-    
+
     let uuid_bytes = id.as_bytes();
     let filter = doc! { "_id": Binary { subtype: mongodb::bson::spec::BinarySubtype::Generic, bytes: uuid_bytes.to_vec() } };
     let update = doc! {
@@ -125,7 +131,82 @@ pub async fn update_task<'a>(
             }
         }
     };
-    
-    collection.update_one(filter, update).await.map_err(|e| PoolError::from(e))?;
+
+    collection
+        .update_one(filter, update)
+        .await
+        .map_err(|e| PoolError::from(e))?;
+    Ok(())
+}
+
+pub async fn update_text_analysis<'a>(
+    mongo_pool: &Pool,
+    id: Uuid,
+    user_id: &str,
+    data: &str,
+) -> Result<(), PoolError> {
+    let client = mongo_pool.get().await?;
+    let collection: Collection<ProductAnalysis> = client.database(DB_NAME).collection(user_id);
+
+    let uuid_bytes = id.as_bytes();
+    let filter = doc! { "_id": Binary { subtype: mongodb::bson::spec::BinarySubtype::Generic, bytes: uuid_bytes.to_vec() } };
+    let update = doc! {
+        "$set": {
+            "text_analyses": data
+        }
+    };
+
+    collection
+        .update_one(filter, update)
+        .await
+        .map_err(|e| PoolError::from(e))?;
+    Ok(())
+}
+
+pub async fn update_photo_analysis<'a>(
+    mongo_pool: &Pool,
+    id: Uuid,
+    user_id: &str,
+    data: &str,
+) -> Result<(), PoolError> {
+    let client = mongo_pool.get().await?;
+    let collection: Collection<ProductAnalysis> = client.database(DB_NAME).collection(user_id);
+
+    let uuid_bytes = id.as_bytes();
+    let filter = doc! { "_id": Binary { subtype: mongodb::bson::spec::BinarySubtype::Generic, bytes: uuid_bytes.to_vec() } };
+    let update = doc! {
+        "$set": {
+            "photo_analysis": data
+        }
+    };
+
+    collection
+        .update_one(filter, update)
+        .await
+        .map_err(|e| PoolError::from(e))?;
+    Ok(())
+}
+
+pub async fn update_review_analysis<'a>(
+    mongo_pool: &Pool,
+    id: Uuid,
+    user_id: &str,
+    data: &str,
+) -> Result<(), PoolError> {
+    let client = mongo_pool.get().await?;
+    let collection: Collection<ProductAnalysis> = client.database(DB_NAME).collection(user_id);
+
+    let uuid_bytes = id.as_bytes();
+    let filter = doc! { "_id": Binary { subtype: mongodb::bson::spec::BinarySubtype::Generic, bytes: uuid_bytes.to_vec() } };
+    let update = doc! {
+        "$set": {
+            "review_analysis": data
+        }
+    };
+
+    collection
+        .update_one(filter, update)
+        .await
+        .map_err(|e| PoolError::from(e))?;
     Ok(())
 }

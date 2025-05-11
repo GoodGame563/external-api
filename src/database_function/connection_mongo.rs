@@ -1,10 +1,9 @@
-use rocket::{Build, Rocket};
-use std::env;
-use deadpool::managed;
-use serde::Deserialize;
-use mongodb::{ bson::doc, options::ClientOptions, Client, error::Error };
 use crate::database_function::function_mongo::check_and_create_db;
-
+use deadpool::managed;
+use mongodb::{bson::doc, error::Error, options::ClientOptions, Client};
+use rocket::{Build, Rocket};
+use serde::Deserialize;
+use std::env;
 
 #[derive(Debug, Deserialize)]
 struct Config {
@@ -26,7 +25,6 @@ impl MongoManager {
         Self { connection_string }
     }
 }
-
 
 impl managed::Manager for MongoManager {
     type Type = Client;
@@ -55,5 +53,5 @@ pub async fn init_db_pool(rocket: Rocket<Build>) -> Rocket<Build> {
     let pool = Pool::builder(manager).max_size(pool_size).build().unwrap();
     let client = pool.get().await.unwrap();
     check_and_create_db(&client).await.unwrap();
-    rocket.manage(pool) 
+    rocket.manage(pool)
 }

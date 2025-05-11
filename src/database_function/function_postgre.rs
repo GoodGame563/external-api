@@ -1,8 +1,7 @@
 use chrono::{DateTime, Utc};
-use deadpool_postgres::{Pool, PoolError};
 use deadpool_postgres::tokio_postgres::Row;
+use deadpool_postgres::{Pool, PoolError};
 use uuid::Uuid;
-
 
 #[derive(Debug)]
 pub struct User {
@@ -15,35 +14,41 @@ pub struct User {
 impl User {
     pub async fn create(&self, pool: &Pool) -> Result<(), PoolError> {
         let client = pool.get().await?;
-        client.execute(
-            "SELECT create_user($1, $2, $3)",
-            &[&self.id, &self.email, &self.name],
-        ).await?;
+        client
+            .execute(
+                "SELECT create_user($1, $2, $3)",
+                &[&self.id, &self.email, &self.name],
+            )
+            .await?;
         Ok(())
     }
 
     pub async fn delete_by_id(pool: &Pool, id: &str) -> Result<(), PoolError> {
         let client = pool.get().await?;
-        client.execute("DELETE FROM users WHERE id = $1", &[&id]).await?;
+        client
+            .execute("DELETE FROM users WHERE id = $1", &[&id])
+            .await?;
         Ok(())
     }
 
-    pub async fn find_by_id(pool: &Pool, id: &str) -> Result<Option<Self>, PoolError>{
+    pub async fn find_by_id(pool: &Pool, id: &str) -> Result<Option<Self>, PoolError> {
         let client = pool.get().await?;
-        client.query_opt(
-            "SELECT id, email, name, is_admin FROM users WHERE id = $1",
-            &[&id]
-        ).await?.map(Self::from_row).transpose()
+        client
+            .query_opt(
+                "SELECT id, email, name, is_admin FROM users WHERE id = $1",
+                &[&id],
+            )
+            .await?
+            .map(Self::from_row)
+            .transpose()
     }
 
     pub async fn find_by_email(pool: &Pool, email: &str) -> Result<bool, PoolError> {
         let client = pool.get().await?;
-        Ok(
-            client.query_one(
-                "SELECT user_exists_email($1)",
-                &[&email]
-            ).await?.get("user_exists_email")
-        )
+        Ok(client
+            .query_one("SELECT user_exists_email($1)", &[&email])
+            .await?
+            .get("user_exists_email"))
     }
 
     fn from_row(row: Row) -> Result<Self, PoolError> {
@@ -59,27 +64,36 @@ impl User {
 #[derive(Debug)]
 pub struct UserSession {
     pub id: Uuid,
-    pub id_user: String,
+    pub user_id: String,
     pub browser: String,
     pub device: String,
     pub os: String,
-    pub last_activity: DateTime<Utc>,
+    pub _last_activity: DateTime<Utc>,
 }
 
 impl UserSession {
-    pub async fn create(id_user:&str, browser: &str, device: &str, os: &str, pool: &Pool) -> Result<Uuid, PoolError> {
+    pub async fn create(
+        id_user: &str,
+        browser: &str,
+        device: &str,
+        os: &str,
+        pool: &Pool,
+    ) -> Result<Uuid, PoolError> {
         let client = pool.get().await?;
-        Ok(
-            client.query_one(
-            "SELECT create_user_session($1, $2, $3, $4)",
-            &[&id_user, &browser, &device, &os],
-            ).await?.get(0)
-        )
+        Ok(client
+            .query_one(
+                "SELECT create_user_session($1, $2, $3, $4)",
+                &[&id_user, &browser, &device, &os],
+            )
+            .await?
+            .get(0))
     }
 
     pub async fn delete_by_id(pool: &Pool, id: Uuid) -> Result<(), PoolError> {
         let client = pool.get().await?;
-        client.execute("DELETE FROM user_session WHERE id = $1", &[&id]).await?;
+        client
+            .execute("DELETE FROM user_session WHERE id = $1", &[&id])
+            .await?;
         Ok(())
     }
 
@@ -98,41 +112,61 @@ impl UserSession {
             &[&id]
         ).await?.map(Self::from_row).transpose()
     }
+    pub async fn check_by_id(pool: &Pool, id: &Uuid) -> Result<bool, PoolError> {
+        let client = pool.get().await?;
+        Ok(client
+            .query_one("SELECT get_user_session($1)", &[&id])
+            .await?
+            .get("get_user_session"))
+    }
+
+    pub async fn update_time(pool: &Pool, id: &Uuid) -> Result<bool, PoolError> {
+        let client = pool.get().await?;
+        Ok(client
+            .query_one("SELECT update_session_activity($1)", &[&id])
+            .await?
+            .get("update_session_activity"))
+    }
+    pub async fn update_user_session_id(pool: &Pool, id: &Uuid) -> Result<Uuid, PoolError> {
+        let client = pool.get().await?;
+        Ok(client
+            .query_one("SELECT update_user_session_id($1)", &[&id])
+            .await?
+            .get("update_user_session_id"))
+    }
 
     fn from_row(row: Row) -> Result<Self, PoolError> {
         Ok(UserSession {
             id: row.get("id"),
-            id_user: row.get("id_user"),
+            user_id: row.get("id_user"),
             browser: row.get("browser"),
             device: row.get("device"),
             os: row.get("os"),
-            last_activity: row.get("last_activity")
+            _last_activity: row.get("last_activity"),
         })
     }
 }
 
 #[derive(Debug)]
 pub struct Task {
-    pub id: Uuid,        
+    pub id: Uuid,
     pub name: String,
     pub user_id: String,
     pub created_at: DateTime<Utc>,
 }
 
 impl Task {
-    pub async fn create(
-        name: &str,
-        user_id: &str,
-        pool: &Pool
-    ) -> Result<Uuid, PoolError> {  
+    pub async fn create(name: &str, user_id: &str, pool: &Pool) -> Result<Uuid, PoolError> {
         let client = pool.get().await?;
-        let row = client.query_one(
-            "INSERT INTO tasks (id, name, user_id, created_at) 
+        let row = client
+            .query_one(
+                "INSERT INTO tasks (id, name, user_id, created_at) 
              VALUES (uuid_generate_v7(), $1, $2, $3)
              RETURNING id",
-            &[&name, &user_id, &Utc::now()],
-        ).await?;
-    
+                &[&name, &user_id, &Utc::now()],
+            )
+            .await?;
+
         let id: uuid::Uuid = row.get(0);
         Ok(id)
     }
@@ -140,43 +174,48 @@ impl Task {
     pub async fn delete_by_id(
         pool: &Pool,
         id: Uuid,
-        created_at: DateTime<Utc>
-    ) -> Result<(), PoolError> {  
+        created_at: DateTime<Utc>,
+    ) -> Result<(), PoolError> {
         let client = pool.get().await?;
-        client.execute(
-            "DELETE FROM tasks 
-             WHERE id = $1 AND created_at = $2", 
-            &[&id, &created_at]
-        ).await?;
+        client
+            .execute(
+                "DELETE FROM tasks 
+             WHERE id = $1 AND created_at = $2",
+                &[&id, &created_at],
+            )
+            .await?;
         Ok(())
     }
 
     pub async fn find_by_id(
         pool: &Pool,
         id: Uuid,
-        created_at: DateTime<Utc>
-    ) -> Result<Option<Self>, PoolError> {  
+        created_at: DateTime<Utc>,
+    ) -> Result<Option<Self>, PoolError> {
         let client = pool.get().await?;
-        client.query_opt(
-            "SELECT id, name, user_id, created_at 
+        client
+            .query_opt(
+                "SELECT id, name, user_id, created_at 
              FROM tasks 
              WHERE id = $1 AND created_at = $2",
-            &[&id, &created_at]
-        ).await?.map(Self::from_row).transpose()
+                &[&id, &created_at],
+            )
+            .await?
+            .map(Self::from_row)
+            .transpose()
     }
 
-    pub async fn find_by_user_id(
-        pool: &Pool,
-        id: &str
-    ) -> Result<Vec<Self>, PoolError> {
+    pub async fn find_by_user_id(pool: &Pool, id: &str) -> Result<Vec<Self>, PoolError> {
         let client = pool.get().await?;
-        let rows = client.query(
-            "SELECT id, name, user_id, created_at 
+        let rows = client
+            .query(
+                "SELECT id, name, user_id, created_at 
              FROM tasks 
              WHERE user_id = $1 
              ORDER BY created_at DESC",
-            &[&id]
-        ).await?;
+                &[&id],
+            )
+            .await?;
 
         let results: Vec<Self> = rows
             .into_iter()
@@ -187,35 +226,32 @@ impl Task {
                 created_at: row.get("created_at"),
             })
             .collect();
-    
+
         Ok(results)
     }
-    pub async fn update_time(
-        pool: &Pool,
-        id: &Uuid,
-    ) -> Result<(), PoolError> {
+    pub async fn update_time(pool: &Pool, id: &Uuid) -> Result<(), PoolError> {
         let client = pool.get().await?;
-        client.execute(
-            "UPDATE tasks 
+        client
+            .execute(
+                "UPDATE tasks 
              SET created_at = $2 
              WHERE id = $1",
-            &[&id, &Utc::now()]
-        ).await?;
+                &[&id, &Utc::now()],
+            )
+            .await?;
         Ok(())
     }
 
-    pub async fn update_name(
-        pool: &Pool,
-        id: Uuid,
-        new_name: &str
-    ) -> Result<(), PoolError> {
+    pub async fn update_name(pool: &Pool, id: Uuid, new_name: &str) -> Result<(), PoolError> {
         let client = pool.get().await?;
-        client.execute(
-            "UPDATE tasks 
+        client
+            .execute(
+                "UPDATE tasks 
              SET name = $2 
              WHERE id = $1",
-            &[&id, &new_name]
-        ).await?;
+                &[&id, &new_name],
+            )
+            .await?;
         Ok(())
     }
 
@@ -225,6 +261,32 @@ impl Task {
             name: row.get("name"),
             user_id: row.get("user_id"),
             created_at: row.get("created_at"),
+        })
+    }
+}
+
+pub struct SubscribeUser {
+    pub created_at: DateTime<Utc>,
+    pub valid_to: DateTime<Utc>,
+}
+
+impl SubscribeUser {
+    pub async fn get_by_user_id(pool: &Pool, user_id: &str) -> Result<Option<Self>, PoolError> {
+        let client = pool.get().await?;
+        client
+            .query_opt(
+                "SELECT created_at, valid_to
+	        FROM public.subscribe_users WHERE user_id = $1;",
+                &[&user_id],
+            )
+            .await?
+            .map(Self::from_row)
+            .transpose()
+    }
+    fn from_row(row: Row) -> Result<Self, PoolError> {
+        Ok(SubscribeUser {
+            created_at: row.get("created_at"),
+            valid_to: row.get("valid_to"),
         })
     }
 }

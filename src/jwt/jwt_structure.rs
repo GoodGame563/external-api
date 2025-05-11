@@ -1,24 +1,29 @@
+use uuid::Uuid;
+
 #[derive(serde::Deserialize)]
 #[serde(crate = "rocket::serde")]
 pub struct RefreshTokenPayload {
-    id: String,
-    browser: String,
-    device: String,
-    os: String,
-    exp: usize,
+    pub id: Uuid,
+    pub browser: String,
+    pub device: String,
+    pub os: String,
+    #[serde(rename = "exp")]
+    _exp: usize,
 }
 
 #[derive(serde::Deserialize)]
 #[serde(crate = "rocket::serde")]
 pub struct AccessTokenPayload {
     pub user_id: String,
-    exp: usize,
+    pub id: Uuid,
+    #[serde(rename = "exp")]
+    _exp: usize,
 }
 
 #[derive(serde::Serialize)]
 #[serde(crate = "rocket::serde")]
 pub struct RefreshToken<'r> {
-    id: &'r str,
+    id: &'r Uuid,
     browser: &'r str,
     device: &'r str,
     os: &'r str,
@@ -28,13 +33,14 @@ pub struct RefreshToken<'r> {
 #[derive(serde::Serialize)]
 #[serde(crate = "rocket::serde")]
 pub struct AccessToken<'r> {
+    id: &'r Uuid,
     user_id: &'r str,
     exp: usize,
 }
 
 impl RefreshToken<'_> {
     pub fn new<'a>(
-        id: &'a str,
+        id: &'a Uuid,
         browser: &'a str,
         device: &'a str,
         os: &'a str,
@@ -51,7 +57,7 @@ impl RefreshToken<'_> {
 }
 
 impl AccessToken<'_> {
-    pub fn new<'a>(user_id: &'a str, exp: usize) -> AccessToken<'a> {
-        AccessToken { user_id, exp }
+    pub fn new<'a>(id: &'a Uuid, user_id: &'a str, exp: usize) -> AccessToken<'a> {
+        AccessToken { id, user_id, exp }
     }
 }

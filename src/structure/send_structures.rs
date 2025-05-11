@@ -1,52 +1,51 @@
-use chrono::Utc;
+use chrono::{TimeDelta, Utc};
+use serde::Serialize;
 use uuid::Uuid;
 
-#[derive(serde::Serialize)]
+#[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Token {
     pub token: String,
-    pub life_time: chrono::TimeDelta
+    pub life_time: TimeDelta,
 }
 
-#[derive(serde::Serialize)]
+#[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Tokens {
     pub access_token: Token,
-    pub refresh_token: Token
+    pub refresh_token_life_time: TimeDelta,
 }
 
-#[derive(serde::Serialize)]
+#[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ErrorMessage {
     pub message: String,
-    pub details: String,
 }
 
-#[derive(serde::Serialize)]
+#[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct UsedWord {
     pub id_word: i64,
     pub word: String,
-    pub used: bool
+    pub used: bool,
 }
 
-
-#[derive(serde::Serialize)]
+#[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct RequestMessage {
-    pub id_tasks: i64
+    pub id_tasks: i64,
 }
 
-#[derive(serde::Serialize)]
+#[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct HistoryAnswer{
-    pub id: i32, 
-    pub name: String, 
+pub struct HistoryAnswer {
+    pub id: i32,
+    pub name: String,
     pub status: String,
-    pub updated: chrono::DateTime<Utc>
+    pub updated: chrono::DateTime<Utc>,
 }
 
-#[derive(serde::Serialize)]
+#[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Product {
     pub id: u64,
@@ -58,26 +57,53 @@ pub struct Product {
     pub description: String,
 }
 
-
-#[derive(serde::Serialize)]
+#[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Task{
+pub struct Task {
     pub main: Product,
     pub products: Vec<Product>,
     pub used_words: Vec<String>,
     pub unused_words: Vec<String>,
 }
 
-#[derive(serde::Serialize)]
+#[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct HistoryElement{
+pub struct HistoryElement {
     pub id: Uuid,
     pub name: String,
     pub created_at: chrono::DateTime<Utc>,
 }
 
-#[derive(serde::Serialize)]
+#[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct History{
-    pub elements: Vec<HistoryElement>
+pub struct History {
+    pub elements: Vec<HistoryElement>,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SendSession {
+    pub id: Uuid,
+    pub browser: String,
+    pub last_activity: chrono::DateTime<Utc>,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SendAccount {
+    pub name: String,
+    pub email: String,
+    pub sessions: Vec<SendSession>,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct TaskId {
+    pub id: Uuid,
+}
+
+#[derive(Serialize)]
+pub struct SendMessage {
+    pub message: String,
+    pub task_type: String,
 }

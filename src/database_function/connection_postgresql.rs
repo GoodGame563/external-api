@@ -10,10 +10,7 @@ struct Config {
 impl Config {
     pub fn from_env() -> Result<Self, config::ConfigError> {
         config::Config::builder()
-            .add_source(
-                config::Environment::default()
-                    .separator("__")
-            )
+            .add_source(config::Environment::default().separator("__"))
             .build()?
             .try_deserialize()
     }
@@ -26,11 +23,8 @@ pub async fn init_db_pool(rocket: Rocket<Build>) -> Rocket<Build> {
         .unwrap_or(20);
 
     let cfg = Config::from_env().unwrap();
-    let mgr = deadpool_postgres::Manager::new(
-         cfg.pg.get_pg_config().expect("Not find env file"),
-        NoTls,
-    );
-
+    let mgr =
+        deadpool_postgres::Manager::new(cfg.pg.get_pg_config().expect("Not find env file"), NoTls);
 
     let pool = Pool::builder(mgr)
         .max_size(pool_size as usize)
