@@ -151,7 +151,7 @@ impl UserSession {
 pub struct Task {
     pub id: Uuid,
     pub name: String,
-    pub user_id: String,
+    pub _user_id: String,
     pub created_at: DateTime<Utc>,
 }
 
@@ -171,38 +171,16 @@ impl Task {
         Ok(id)
     }
 
-    pub async fn delete_by_id(
-        pool: &Pool,
-        id: Uuid,
-        created_at: DateTime<Utc>,
-    ) -> Result<(), PoolError> {
+    pub async fn delete_by_id(pool: &Pool, id: &Uuid) -> Result<(), PoolError> {
         let client = pool.get().await?;
         client
             .execute(
                 "DELETE FROM tasks 
-             WHERE id = $1 AND created_at = $2",
-                &[&id, &created_at],
+             WHERE id = $1",
+                &[id],
             )
             .await?;
         Ok(())
-    }
-
-    pub async fn find_by_id(
-        pool: &Pool,
-        id: Uuid,
-        created_at: DateTime<Utc>,
-    ) -> Result<Option<Self>, PoolError> {
-        let client = pool.get().await?;
-        client
-            .query_opt(
-                "SELECT id, name, user_id, created_at 
-             FROM tasks 
-             WHERE id = $1 AND created_at = $2",
-                &[&id, &created_at],
-            )
-            .await?
-            .map(Self::from_row)
-            .transpose()
     }
 
     pub async fn find_by_user_id(pool: &Pool, id: &str) -> Result<Vec<Self>, PoolError> {
@@ -222,7 +200,7 @@ impl Task {
             .map(|row| Self {
                 id: row.get("id"),
                 name: row.get("name"),
-                user_id: row.get("user_id"),
+                _user_id: row.get("user_id"),
                 created_at: row.get("created_at"),
             })
             .collect();
@@ -253,15 +231,6 @@ impl Task {
             )
             .await?;
         Ok(())
-    }
-
-    fn from_row(row: Row) -> Result<Self, PoolError> {
-        Ok(Task {
-            id: row.get("id"),
-            name: row.get("name"),
-            user_id: row.get("user_id"),
-            created_at: row.get("created_at"),
-        })
     }
 }
 

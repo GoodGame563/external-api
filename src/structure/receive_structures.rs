@@ -70,6 +70,12 @@ pub struct CreateTask {
 
 #[derive(Deserialize)]
 #[serde(crate = "rocket::serde")]
+pub struct DeleteTask {
+    pub id: uuid::Uuid,
+}
+
+#[derive(Deserialize)]
+#[serde(crate = "rocket::serde")]
 pub struct EditTask {
     pub id: uuid::Uuid,
     pub products: Vec<Product>,

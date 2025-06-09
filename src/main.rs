@@ -21,7 +21,7 @@ use database_function::{
     get_user_session_by_id, init_mongo_pools, init_postgre_pools, set_photo_analysis,
     set_review_analysis, set_text_analysis, sub_is_exist, update_check_session_time,
     update_task_name, update_user_session_id, MixMongoAndCustomError, MixPoolError,
-    MixPostgresAndCustomError,
+    MixPostgresAndCustomError, delete_task as delete_task_db,
 };
 use futures::StreamExt;
 use rocket::{config::SecretKey, http::CookieJar};
@@ -34,8 +34,8 @@ use rocket::{
     State,
 };
 use structure::receive_structures::{
-    CreateTask, EditTask, EditTaskName, GetTask, InformationTask, RefreshTokenStructure,
-    TaskMessage,
+    CreateTask, DeleteTask, EditTask, EditTaskName, GetTask, InformationTask,
+    RefreshTokenStructure, TaskMessage,
 };
 use structure::send_structures::{
     ErrorMessage, History, SendAccount, SendMessage, Task, TaskId, Token, Tokens,
@@ -254,7 +254,6 @@ async fn refresh(
         Some(value) => value,
         None => "".to_string(),
     };
-    println!("{}", refresh_token);
     let refresh_data_in_jwt = validate_refresh_jwt(&refresh_token).map_err(|e| {
         error!("Invalid refresh token, token timeout: {}", e);
         cookies.remove_private("refresh_token");
@@ -364,6 +363,27 @@ async fn refresh(
             refresh_token_life_time: refresh_life_time,
         }),
     ))
+}
+
+#[post("/task", data = "<data>")]
+async fn delete_task(
+    pool: &State<PostgresPool>,
+    mongo_pool: &State<MongoPool>,
+    data: Json<DeleteTask>,
+    user: AuthUser,
+) -> Result<Status, (Status, Json<ErrorMessage>)> {
+    delete_task_db(pool, mongo_pool, &user.user_id, &data.id)
+        .await
+        .map_err(|e| {
+            error!("Failed to delete task: {:?}", e);
+            (
+                Status::InternalServerError,
+                Json(ErrorMessage {
+                    message: "can't delete task".to_string(),
+                }),
+            )
+        })?;
+    Ok(Status::Ok)
 }
 
 #[post("/task", data = "<data>")]
@@ -908,8 +928,6 @@ async fn exit(
     Ok(())
 }
 
-
-use tokio::sync::oneshot;
 #[get("/information?<id>")]
 pub async fn information<'a>(
     id: String,
@@ -936,14 +954,7 @@ pub async fn information<'a>(
             }),
         )
     })?;
-   
-    let (tx, rx) = oneshot::channel::<()>();
 
-    // Запускаем задачу для обработки отключения
-    tokio::spawn(async move {
-        rx.await.unwrap_or_else(|_| println!("Клиент с ID {} отключился", id));
-        // Здесь можно добавить асинхронную логику, например, уведомление NATS
-    });
     Ok(TextStream! {
         yield serde_json::to_string(&SendMessage{ message: "start".to_string(), task_type: "system".to_string() }).unwrap()+"\n\n";
         let mut text_is_end = false;
@@ -980,11 +991,12 @@ pub async fn information<'a>(
                     photo_is_end = true;
                 }
             }
+            yield serde_json::to_string(&SendMessage{ message: nats_message.message, task_type: nats_message.task_type }).unwrap()+"\n\n";
             if text_is_end && reviews_is_end && photo_is_end {
                 yield serde_json::to_string(&SendMessage{ message: "done".to_string(), task_type: "system".to_string() }).unwrap()+"\n\n";
                 break;
             }
-            yield serde_json::to_string(&SendMessage{ message: nats_message.message, task_type: nats_message.task_type }).unwrap()+"\n\n";
+
         }
     })
 }
@@ -1110,7 +1122,7 @@ async fn rocket() -> _ {
         .mount("/api/v1/create", routes![create_task])
         .mount("/api/v1/edit", routes![edit_task_name])
         .mount("/api/v1/regenerate", routes![edit_task])
-        .mount("/api/v1/delete", routes![delete_session])
+        .mount("/api/v1/delete", routes![delete_session, delete_task])
         .mount("/api/v1/add", routes![add_information_by_task])
         .attach(cors)
 }

@@ -16,10 +16,12 @@ use function_postgre::{SubscribeUser, User, UserSession};
 use rocket::{Build, Rocket};
 use uuid::Uuid;
 // Error type definitions
+#[derive(Debug)]
 pub enum MixPoolError {
     Postgres(PostgresPoolError),
     Mongo(MongoPoolError),
 }
+#[derive(Debug)]
 pub enum MixMongoAndCustomError {
     Mongo(MongoPoolError),
     Custom(String),
@@ -87,7 +89,6 @@ pub async fn get_user_session_by_id(
     Ok(session)
 }
 
-/// Task management
 pub async fn create_task(
     post_pool: &PostgresPool,
     mongo_pool: &MongoPool,
@@ -132,6 +133,23 @@ pub async fn create_task(
     )
     .await
     .map_err(MixPoolError::Mongo)?;
+
+    Ok(uuid)
+}
+
+pub async fn delete_task(
+    post_pool: &PostgresPool,
+    mongo_pool: &MongoPool,
+    user_id: &str,
+    id: &Uuid,
+) -> Result<(), MixPoolError> {
+    let uuid = function_postgre::Task::delete_by_id(post_pool, id)
+        .await
+        .map_err(MixPoolError::Postgres)?;
+
+    function_mongo::delete_task(mongo_pool, user_id, id)
+        .await
+        .map_err(MixPoolError::Mongo)?;
 
     Ok(uuid)
 }
@@ -262,6 +280,9 @@ pub async fn get_task_by_id(
             .collect(),
         used_words: real_task.words_analysis.used_words,
         unused_words: real_task.words_analysis.unused_words,
+        text_analyses: real_task.text_analysis,
+        photo_analyses: real_task.photo_analysis,
+        review_analyses: real_task.review_analysis,
     };
     Ok(task)
 }
@@ -275,7 +296,6 @@ pub async fn update_task_name(
     Ok(())
 }
 
-// User/Account management
 pub async fn sub_is_exist(pool: &PostgresPool, user_id: &str) -> Result<bool, PostgresPoolError> {
     match User::find_by_id(pool, user_id).await? {
         Some(user) => {

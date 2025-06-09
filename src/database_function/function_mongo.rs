@@ -34,7 +34,7 @@ pub struct ProductAnalysis {
     pub main_product: Product,
     pub competitors: Vec<Product>,
     pub words_analysis: WordsAnalysis,
-    pub text_analyses: Option<String>,
+    pub text_analysis: Option<String>,
     pub photo_analysis: Option<String>,
     pub review_analysis: Option<String>,
 }
@@ -68,7 +68,7 @@ pub async fn create_task<'a>(
             used_words,
             unused_words,
         },
-        text_analyses: None,
+        text_analysis: None,
         photo_analysis: None,
         review_analysis: None,
     };
@@ -99,11 +99,28 @@ pub async fn get_task<'a>(
         main_product: doc.main_product,
         competitors: doc.competitors,
         words_analysis: doc.words_analysis,
-        text_analyses: doc.text_analyses,
+        text_analysis: doc.text_analysis,
         photo_analysis: doc.photo_analysis,
         review_analysis: doc.review_analysis,
     });
     Ok(task)
+}
+
+pub async fn delete_task<'a>(
+    mongo_pool: &'a Pool,
+    user_id: &'a str,
+    id: &'a Uuid,
+) -> Result<(), PoolError> {
+    let client = mongo_pool.get().await?;
+    let collection: Collection<ProductAnalysis> = client.database(DB_NAME).collection(user_id);
+    let uuid_bytes = id.as_bytes();
+    let filter = doc! { "_id": Binary { subtype: mongodb::bson::spec::BinarySubtype::Generic, bytes: uuid_bytes.to_vec() } };
+
+    let _ = collection
+        .delete_one(filter)
+        .await
+        .map_err(|e| PoolError::from(e))?;
+    Ok(())
 }
 
 pub async fn update_task<'a>(
@@ -152,7 +169,7 @@ pub async fn update_text_analysis<'a>(
     let filter = doc! { "_id": Binary { subtype: mongodb::bson::spec::BinarySubtype::Generic, bytes: uuid_bytes.to_vec() } };
     let update = doc! {
         "$set": {
-            "text_analyses": data
+            "text_analysis": data
         }
     };
 

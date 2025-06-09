@@ -48,28 +48,15 @@ pub async fn get_messages_stream(
     let stream_name = crate::STREAM_NAME;
     let consumer_name = format!("pull-{}", id);
     let filter_subject = format!("{}.{}", stream_name, id);
-    let consumer:PullConsumer = match stream.get_consumer(&consumer_name).await{
-        Ok(consumer) => consumer,
-        Err(_) => {
-            stream
-                .get_or_create_consumer(
-                    &consumer_name,
-                    pullConfig {
-                        filter_subject: filter_subject.into(),
-                        ..Default::default()
-                    },
-                )
-                .await?
-        }
-    };
-    // let consumer: PullConsumer = stream
-    //     .get_or_create_consumer(
-    //         "pull",
-    //         pullConfig {
-    //             filter_subject: format!("{}.{}", stream_name, id).into(),
-    //             ..Default::default()
-    //         },
-    //     )
-    //     .await?;
+    let consumer: PullConsumer = stream
+        .get_or_create_consumer(
+            &consumer_name,
+            pullConfig {
+                durable_name: Some(consumer_name.clone()),
+                filter_subject: filter_subject.into(),
+                ..Default::default()
+            },
+        )
+        .await?;
     Ok(consumer.messages().await?)
 }

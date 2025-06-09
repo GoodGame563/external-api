@@ -64,6 +64,9 @@ pub struct Task {
     pub products: Vec<Product>,
     pub used_words: Vec<String>,
     pub unused_words: Vec<String>,
+    pub text_analyses: Option<String>,
+    pub photo_analyses: Option<String>,
+    pub review_analyses: Option<String>,
 }
 
 #[derive(Serialize)]
