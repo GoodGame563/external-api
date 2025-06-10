@@ -1,10 +1,12 @@
+[default]
+address = "0.0.0.0"
+port = 8000
+cors_origins = ["http://localhost:5501"]
+cors_methods = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+cors_headers = ["Authorization", "Content-Type"]
+
 [default.databases.postgres_db]
 pool_size = 20
 
 [default.databases.mongo_db]
 pool_size = 20
-
-[default]
-cors_origins = ["http://localhost:5501"]
-cors_methods = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-cors_headers = ["Authorization", "Content-Type"]

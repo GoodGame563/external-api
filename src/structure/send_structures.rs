@@ -120,7 +120,7 @@ pub struct Subscribtion {
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct SendUser{
+pub struct SendUser {
     pub name: String,
     pub email: String,
     pub subscription: Subscribtion,

@@ -280,7 +280,7 @@ impl SubscribeUser {
     }
 }
 
-pub struct FullUser{
+pub struct FullUser {
     pub id: String,
     pub email: String,
     pub name: String,
@@ -295,11 +295,14 @@ impl FullUser {
         let rows = client
             .query("SELECT u.id, u.email, u.name, u.is_admin, s.created_at, s.valid_to FROM public.users u LEFT JOIN public.subscribe_users s ON u.id = s.user_id;", &[])
             .await?;
-        let results: Vec<Self> = rows.into_iter().map(Self::from_row).collect::<Result<Vec<_>, _>>()?;
+        let results: Vec<Self> = rows
+            .into_iter()
+            .map(Self::from_row)
+            .collect::<Result<Vec<_>, _>>()?;
         Ok(results)
     }
 
-        fn from_row(row: Row) -> Result<Self, PoolError> {
+    fn from_row(row: Row) -> Result<Self, PoolError> {
         Ok(FullUser {
             id: row.get("id"),
             email: row.get("email"),

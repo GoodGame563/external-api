@@ -340,21 +340,15 @@ pub async fn get_account_info(
     }
 }
 
-pub async fn is_admin(
-    pool: &PostgresPool,
-    user_id: &str,
-) -> Result<bool, PostgresPoolError> {
+pub async fn is_admin(pool: &PostgresPool, user_id: &str) -> Result<bool, PostgresPoolError> {
     match User::find_by_id(pool, user_id).await? {
         Some(user) => Ok(user.is_admin),
         None => Ok(false),
     }
 }
 
-pub async fn get_all_users(
-    pool: &PostgresPool,
-) -> Result<Vec<FullUser>, PostgresPoolError> {
-    let users = FullUser::find_all(pool)
-        .await?;
+pub async fn get_all_users(pool: &PostgresPool) -> Result<Vec<FullUser>, PostgresPoolError> {
+    let users = FullUser::find_all(pool).await?;
     Ok(users.into_iter().map(FullUser::from).collect())
 }
 
@@ -364,8 +358,7 @@ pub async fn create_subscribe(
     created_at: chrono::DateTime<chrono::Utc>,
     valid_to: chrono::DateTime<chrono::Utc>,
 ) -> Result<(), PostgresPoolError> {
-    SubscribeUser::create(user_id, created_at, valid_to, pool)
-        .await?;
+    SubscribeUser::create(user_id, created_at, valid_to, pool).await?;
     Ok(())
 }
 

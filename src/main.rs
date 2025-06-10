@@ -16,12 +16,12 @@ use crate::jwt::{
 };
 use api::parser_integration_service_client::ParserIntegrationServiceClient;
 use database_function::{
-    check_client_session_id, create_task as create_task_db, delete_client_session,
-    function_postgre::User, get_account_info, get_all_tasks, get_task_by_id,
-    get_user_session_by_id, init_mongo_pools, init_postgre_pools, set_photo_analysis,
-    set_review_analysis, set_text_analysis, sub_is_exist, update_check_session_time,
-    update_task_name, update_user_session_id, MixMongoAndCustomError, MixPoolError,
-    MixPostgresAndCustomError, delete_task as delete_task_db, get_all_users, is_admin, set_admin, create_subscribe
+    check_client_session_id, create_subscribe, create_task as create_task_db,
+    delete_client_session, delete_task as delete_task_db, function_postgre::User, get_account_info,
+    get_all_tasks, get_all_users, get_task_by_id, get_user_session_by_id, init_mongo_pools,
+    init_postgre_pools, is_admin, set_admin, set_photo_analysis, set_review_analysis,
+    set_text_analysis, sub_is_exist, update_check_session_time, update_task_name,
+    update_user_session_id, MixMongoAndCustomError, MixPoolError, MixPostgresAndCustomError,
 };
 use futures::StreamExt;
 use rocket::{config::SecretKey, http::CookieJar};
@@ -34,11 +34,12 @@ use rocket::{
     State,
 };
 use structure::receive_structures::{
-    CreateTask, DeleteTask, EditTask, EditTaskName, GetTask, InformationTask,
-    RefreshTokenStructure, TaskMessage, ChangeToAdminData, CreateSubscribe
+    ChangeToAdminData, CreateSubscribe, CreateTask, DeleteTask, EditTask, EditTaskName, GetTask,
+    InformationTask, RefreshTokenStructure, TaskMessage,
 };
 use structure::send_structures::{
-    ErrorMessage, History, SendAccount, SendMessage, Task, TaskId, Token, Tokens, SendUser, Subscribtion
+    ErrorMessage, History, SendAccount, SendMessage, SendUser, Subscribtion, Task, TaskId, Token,
+    Tokens,
 };
 
 use database_function::connection_mongo::Pool as MongoPool;
@@ -50,10 +51,15 @@ use rabbit::{
     send_task_to_text_analysis_queue, RabbitChannel,
 };
 use rocket_cors::{AllowedHeaders, AllowedOrigins};
+use std::net::{IpAddr, Ipv4Addr};
 use std::str::{from_utf8, FromStr};
 use utils::hash_str;
 mod api {
     tonic::include_proto!("api");
+}
+
+struct ConfigIternal {
+    pub integration_service_client_url: String,
 }
 
 const STREAM_NAME: &str = "ai_stream";
@@ -688,6 +694,7 @@ async fn get_words_from_url(
     product_id: i32,
     user: AuthUser,
     pool: &State<PostgresPool>,
+    config: &State<ConfigIternal>,
 ) -> Result<(Status, Json<Vec<String>>), (Status, Json<ErrorMessage>)> {
     if !sub_is_exist(pool, &user.user_id).await.map_err(|e| {
         error!("Failed to check subscription existence: {}", e);
@@ -700,17 +707,22 @@ async fn get_words_from_url(
     })? {
         return Ok((Status::PaymentRequired, Json(vec![])));
     }
-    let mut client = ParserIntegrationServiceClient::connect("http://localhost:50051")
-        .await
-        .map_err(|e| {
-            error!("Failed to create parser client: {}", e);
-            (
-                Status::InternalServerError,
-                Json(ErrorMessage {
-                    message: "Failed to create parser client".to_string(),
-                }),
-            )
-        })?;
+    println!(
+        "Connecting to parser service at: {}",
+        config.integration_service_client_url
+    );
+    let mut client =
+        ParserIntegrationServiceClient::connect(config.integration_service_client_url.clone())
+            .await
+            .map_err(|e| {
+                error!("Failed to create parser client: {}", e);
+                (
+                    Status::InternalServerError,
+                    Json(ErrorMessage {
+                        message: "Failed to create parser client".to_string(),
+                    }),
+                )
+            })?;
     let request = tonic::Request::new(api::ParserQueryRequest {
         query_id: product_id,
     });
@@ -1065,18 +1077,19 @@ pub async fn add_information_by_task<'a>(
 }
 
 #[get("/users")]
-pub async fn all_users(pool: &State<PostgresPool>, user: AuthUser) -> Result<Json<Vec<SendUser>>, (Status, Json<ErrorMessage>)> {
-    let is_admin_result = is_admin(pool, &user.user_id)
-        .await
-        .map_err(|e| {
-            error!("Failed to check admin status: {}", e);
-            (
-                Status::InternalServerError,
-                Json(ErrorMessage {
-                    message: "can't check admin status".to_string(),
-                }),
-            )
-        })?;
+pub async fn all_users(
+    pool: &State<PostgresPool>,
+    user: AuthUser,
+) -> Result<Json<Vec<SendUser>>, (Status, Json<ErrorMessage>)> {
+    let is_admin_result = is_admin(pool, &user.user_id).await.map_err(|e| {
+        error!("Failed to check admin status: {}", e);
+        (
+            Status::InternalServerError,
+            Json(ErrorMessage {
+                message: "can't check admin status".to_string(),
+            }),
+        )
+    })?;
     if !is_admin_result {
         return Err((
             Status::Forbidden,
@@ -1085,17 +1098,15 @@ pub async fn all_users(pool: &State<PostgresPool>, user: AuthUser) -> Result<Jso
             }),
         ));
     }
-    let all_user = get_all_users(pool)
-        .await
-        .map_err(|e| {
-            error!("Failed to get all users: {}", e);
-            (
-                Status::InternalServerError,
-                Json(ErrorMessage {
-                    message: "can't get all users".to_string(),
-                }),
-            )
-        })?;
+    let all_user = get_all_users(pool).await.map_err(|e| {
+        error!("Failed to get all users: {}", e);
+        (
+            Status::InternalServerError,
+            Json(ErrorMessage {
+                message: "can't get all users".to_string(),
+            }),
+        )
+    })?;
     let all_user_to_json = all_user
         .into_iter()
         .map(|user| SendUser {
@@ -1117,20 +1128,18 @@ pub async fn check_is_admin(
     pool: &State<PostgresPool>,
     user: AuthUser,
 ) -> Result<Status, (Status, Json<ErrorMessage>)> {
-    let is_admin = is_admin(pool, &user.user_id)
-        .await
-        .map_err(|e| {
-            error!("Failed to check admin status: {}", e);
-            (
-                Status::InternalServerError,
-                Json(ErrorMessage {
-                    message: "can't check admin status".to_string(),
-                }),
-            )
-        })?;
+    let is_admin = is_admin(pool, &user.user_id).await.map_err(|e| {
+        error!("Failed to check admin status: {}", e);
+        (
+            Status::InternalServerError,
+            Json(ErrorMessage {
+                message: "can't check admin status".to_string(),
+            }),
+        )
+    })?;
     if !is_admin {
         return Ok(Status::Forbidden);
-    }    
+    }
     Ok(Status::Ok)
 }
 
@@ -1140,17 +1149,15 @@ pub async fn change_admin(
     user: AuthUser,
     data: Json<ChangeToAdminData>,
 ) -> Result<Status, (Status, Json<ErrorMessage>)> {
-    let is_admin = is_admin(pool, &user.user_id)
-        .await
-        .map_err(|e| {
-            error!("Failed to check admin status: {}", e);
-            (
-                Status::InternalServerError,
-                Json(ErrorMessage {
-                    message: "can't check admin status".to_string(),
-                }),
-            )
-        })?;
+    let is_admin = is_admin(pool, &user.user_id).await.map_err(|e| {
+        error!("Failed to check admin status: {}", e);
+        (
+            Status::InternalServerError,
+            Json(ErrorMessage {
+                message: "can't check admin status".to_string(),
+            }),
+        )
+    })?;
     if !is_admin {
         return Ok(Status::Forbidden);
     }
@@ -1201,17 +1208,15 @@ pub async fn add_subscribe(
             }),
         ));
     }
-     let is_admin = is_admin(pool, &user.user_id)
-        .await
-        .map_err(|e| {
-            error!("Failed to check admin status: {}", e);
-            (
-                Status::InternalServerError,
-                Json(ErrorMessage {
-                    message: "can't check admin status".to_string(),
-                }),
-            )
-        })?;
+    let is_admin = is_admin(pool, &user.user_id).await.map_err(|e| {
+        error!("Failed to check admin status: {}", e);
+        (
+            Status::InternalServerError,
+            Json(ErrorMessage {
+                message: "can't check admin status".to_string(),
+            }),
+        )
+    })?;
     if !is_admin {
         return Ok(Status::Forbidden);
     }
@@ -1244,11 +1249,15 @@ async fn rocket() -> _ {
             .expect("Failed to load secret key from environment variable")
             .as_bytes(),
     );
+    let host = IpAddr::V4(Ipv4Addr::new(0, 0, 0, 0));
     let config = rocket::Config {
+        address: host,
         secret_key,
         ..rocket::Config::debug_default()
     };
-    let allowed_origins = AllowedOrigins::some_exact(&["http://localhost:3000"]);
+    let allowed_origins = AllowedOrigins::some_exact(&[
+        &std::env::var("URL_CORS").unwrap_or("http://localhost:3000".to_string())
+    ]);
     let cors = rocket_cors::CorsOptions {
         allowed_origins,
         allowed_methods: vec![Method::Get, Method::Post, Method::Put, Method::Delete]
@@ -1275,6 +1284,10 @@ async fn rocket() -> _ {
         .attach(AdHoc::on_ignite("Nats", |rocket| async move {
             init_nats_stream(rocket).await
         }))
+        .manage(ConfigIternal {
+            integration_service_client_url: std::env::var("URL_INTEGRATION_SERVICE")
+                .unwrap_or("internal_api:50051".to_string()),
+        })
         .mount("/api/v1", routes![information,])
         .mount(
             "/api/v1/auth",
@@ -1283,12 +1296,21 @@ async fn rocket() -> _ {
         .mount("/api/v1/check", routes![check_is_admin])
         .mount(
             "/api/v1/get",
-            routes![get_words_from_url, get_history, get_task, get_account, all_users],
+            routes![
+                get_words_from_url,
+                get_history,
+                get_task,
+                get_account,
+                all_users
+            ],
         )
         .mount("/api/v1/create", routes![create_task])
         .mount("/api/v1/edit", routes![edit_task_name, change_admin])
         .mount("/api/v1/regenerate", routes![edit_task])
         .mount("/api/v1/delete", routes![delete_session, delete_task])
-        .mount("/api/v1/add", routes![add_information_by_task, add_subscribe])
+        .mount(
+            "/api/v1/add",
+            routes![add_information_by_task, add_subscribe],
+        )
         .attach(cors)
 }
