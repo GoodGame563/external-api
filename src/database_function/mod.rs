@@ -3,6 +3,7 @@ mod connection_postgresql;
 pub mod function_mongo;
 pub mod function_postgre;
 use crate::database_function::connection_mongo::PoolError;
+use crate::database_function::function_postgre::FullUser;
 use crate::structure::{
     receive_structures::{MainProduct, Product},
     send_structures::{
@@ -15,7 +16,7 @@ use function_mongo::{update_photo_analysis, update_review_analysis, update_text_
 use function_postgre::{SubscribeUser, User, UserSession};
 use rocket::{Build, Rocket};
 use uuid::Uuid;
-// Error type definitions
+
 #[derive(Debug)]
 pub enum MixPoolError {
     Postgres(PostgresPoolError),
@@ -32,7 +33,6 @@ pub enum MixPostgresAndCustomError {
     Custom(String),
 }
 
-// Database initialization
 pub async fn init_postgre_pools(rocket: Rocket<Build>) -> Rocket<Build> {
     connection_postgresql::init_db_pool(rocket).await
 }
@@ -41,7 +41,6 @@ pub async fn init_mongo_pools(rocket: Rocket<Build>) -> Rocket<Build> {
     connection_mongo::init_db_pool(rocket).await
 }
 
-// Session management
 pub async fn check_client_session_id(
     pool: &PostgresPool,
     id: &Uuid,
@@ -307,7 +306,8 @@ pub async fn sub_is_exist(pool: &PostgresPool, user_id: &str) -> Result<bool, Po
     }
     Ok(SubscribeUser::get_by_user_id(pool, user_id)
         .await?
-        .is_some())
+        .map(|sub| sub.valid_to > chrono::Utc::now())
+        .unwrap_or(false))
 }
 
 pub async fn get_account_info(
@@ -338,4 +338,42 @@ pub async fn get_account_info(
             "User not found".to_string(),
         ));
     }
+}
+
+pub async fn is_admin(
+    pool: &PostgresPool,
+    user_id: &str,
+) -> Result<bool, PostgresPoolError> {
+    match User::find_by_id(pool, user_id).await? {
+        Some(user) => Ok(user.is_admin),
+        None => Ok(false),
+    }
+}
+
+pub async fn get_all_users(
+    pool: &PostgresPool,
+) -> Result<Vec<FullUser>, PostgresPoolError> {
+    let users = FullUser::find_all(pool)
+        .await?;
+    Ok(users.into_iter().map(FullUser::from).collect())
+}
+
+pub async fn create_subscribe(
+    pool: &PostgresPool,
+    user_id: &str,
+    created_at: chrono::DateTime<chrono::Utc>,
+    valid_to: chrono::DateTime<chrono::Utc>,
+) -> Result<(), PostgresPoolError> {
+    SubscribeUser::create(user_id, created_at, valid_to, pool)
+        .await?;
+    Ok(())
+}
+
+pub async fn set_admin(
+    pool: &PostgresPool,
+    user_id: &str,
+    is_admin: bool,
+) -> Result<(), PostgresPoolError> {
+    User::set_to_admin(pool, user_id, &is_admin).await?;
+    Ok(())
 }

@@ -1,3 +1,4 @@
+use chrono::{DateTime, Utc};
 use serde::Deserialize;
 
 #[derive(Deserialize)]
@@ -112,4 +113,19 @@ pub struct InformationTask {
     #[serde(rename = "taskType")]
     pub task_type: String,
     pub message: String,
+}
+
+#[derive(Deserialize)]
+#[serde(crate = "rocket::serde")]
+pub struct ChangeToAdminData {
+    pub is_admin: bool,
+    pub user_id: String,
+}
+
+#[derive(Deserialize)]
+#[serde(crate = "rocket::serde")]
+pub struct CreateSubscribe {
+    pub created_at: DateTime<Utc>,
+    pub valid_to: DateTime<Utc>,
+    pub user_id: String,
 }

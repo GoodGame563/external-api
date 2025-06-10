@@ -23,10 +23,13 @@ impl User {
         Ok(())
     }
 
-    pub async fn delete_by_id(pool: &Pool, id: &str) -> Result<(), PoolError> {
+    pub async fn set_to_admin(pool: &Pool, id: &str, is_admin: &bool) -> Result<(), PoolError> {
         let client = pool.get().await?;
         client
-            .execute("DELETE FROM users WHERE id = $1", &[&id])
+            .execute(
+                "UPDATE users SET is_admin = $1 WHERE id = $2",
+                &[is_admin, &id],
+            )
             .await?;
         Ok(())
     }
@@ -235,7 +238,7 @@ impl Task {
 }
 
 pub struct SubscribeUser {
-    pub created_at: DateTime<Utc>,
+    pub _created_at: DateTime<Utc>,
     pub valid_to: DateTime<Utc>,
 }
 
@@ -252,8 +255,56 @@ impl SubscribeUser {
             .map(Self::from_row)
             .transpose()
     }
+
+    pub async fn create(
+        user_id: &str,
+        created_at: DateTime<Utc>,
+        valid_to: DateTime<Utc>,
+        pool: &Pool,
+    ) -> Result<(), PoolError> {
+        let client = pool.get().await?;
+        client
+            .execute(
+                "INSERT INTO public.subscribe_users (user_id, created_at, valid_to) 
+             VALUES ($1, $2, $3)",
+                &[&user_id, &created_at, &valid_to],
+            )
+            .await?;
+        Ok(())
+    }
     fn from_row(row: Row) -> Result<Self, PoolError> {
         Ok(SubscribeUser {
+            _created_at: row.get("created_at"),
+            valid_to: row.get("valid_to"),
+        })
+    }
+}
+
+pub struct FullUser{
+    pub id: String,
+    pub email: String,
+    pub name: String,
+    pub is_admin: bool,
+    pub created_at: Option<DateTime<Utc>>,
+    pub valid_to: Option<DateTime<Utc>>,
+}
+
+impl FullUser {
+    pub async fn find_all(pool: &Pool) -> Result<Vec<Self>, PoolError> {
+        let client = pool.get().await?;
+        let rows = client
+            .query("SELECT u.id, u.email, u.name, u.is_admin, s.created_at, s.valid_to FROM public.users u LEFT JOIN public.subscribe_users s ON u.id = s.user_id;", &[])
+            .await?;
+        let results: Vec<Self> = rows.into_iter().map(Self::from_row).collect::<Result<Vec<_>, _>>()?;
+        Ok(results)
+    }
+
+        fn from_row(row: Row) -> Result<Self, PoolError> {
+        Ok(FullUser {
+            id: row.get("id"),
+            email: row.get("email"),
+            name: row.get("name"),
+            is_admin: row.get("is_admin"),
             created_at: row.get("created_at"),
             valid_to: row.get("valid_to"),
         })

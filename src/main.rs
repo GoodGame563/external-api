@@ -21,7 +21,7 @@ use database_function::{
     get_user_session_by_id, init_mongo_pools, init_postgre_pools, set_photo_analysis,
     set_review_analysis, set_text_analysis, sub_is_exist, update_check_session_time,
     update_task_name, update_user_session_id, MixMongoAndCustomError, MixPoolError,
-    MixPostgresAndCustomError, delete_task as delete_task_db,
+    MixPostgresAndCustomError, delete_task as delete_task_db, get_all_users, is_admin, set_admin, create_subscribe
 };
 use futures::StreamExt;
 use rocket::{config::SecretKey, http::CookieJar};
@@ -35,15 +35,15 @@ use rocket::{
 };
 use structure::receive_structures::{
     CreateTask, DeleteTask, EditTask, EditTaskName, GetTask, InformationTask,
-    RefreshTokenStructure, TaskMessage,
+    RefreshTokenStructure, TaskMessage, ChangeToAdminData, CreateSubscribe
 };
 use structure::send_structures::{
-    ErrorMessage, History, SendAccount, SendMessage, Task, TaskId, Token, Tokens,
+    ErrorMessage, History, SendAccount, SendMessage, Task, TaskId, Token, Tokens, SendUser, Subscribtion
 };
 
 use database_function::connection_mongo::Pool as MongoPool;
 use deadpool_postgres::Pool as PostgresPool;
-use log::{error, info, warn};
+use log::error;
 use nats::{get_messages_stream, init_connection_to_stream as init_nats_stream, NatsStream};
 use rabbit::{
     init_rabbit_queues, send_task_to_photo_analysis_queue, send_task_to_reviews_analysis_queue,
@@ -1064,6 +1064,171 @@ pub async fn add_information_by_task<'a>(
     }
 }
 
+#[get("/users")]
+pub async fn all_users(pool: &State<PostgresPool>, user: AuthUser) -> Result<Json<Vec<SendUser>>, (Status, Json<ErrorMessage>)> {
+    let is_admin_result = is_admin(pool, &user.user_id)
+        .await
+        .map_err(|e| {
+            error!("Failed to check admin status: {}", e);
+            (
+                Status::InternalServerError,
+                Json(ErrorMessage {
+                    message: "can't check admin status".to_string(),
+                }),
+            )
+        })?;
+    if !is_admin_result {
+        return Err((
+            Status::Forbidden,
+            Json(ErrorMessage {
+                message: "you are not admin".to_string(),
+            }),
+        ));
+    }
+    let all_user = get_all_users(pool)
+        .await
+        .map_err(|e| {
+            error!("Failed to get all users: {}", e);
+            (
+                Status::InternalServerError,
+                Json(ErrorMessage {
+                    message: "can't get all users".to_string(),
+                }),
+            )
+        })?;
+    let all_user_to_json = all_user
+        .into_iter()
+        .map(|user| SendUser {
+            name: user.name,
+            email: user.email,
+            subscription: Subscribtion {
+                created_at: user.created_at,
+                expires_at: user.valid_to,
+            },
+            id: user.id,
+            is_admin: user.is_admin,
+        })
+        .collect::<Vec<SendUser>>();
+    Ok(Json(all_user_to_json))
+}
+
+#[get("/admin")]
+pub async fn check_is_admin(
+    pool: &State<PostgresPool>,
+    user: AuthUser,
+) -> Result<Status, (Status, Json<ErrorMessage>)> {
+    let is_admin = is_admin(pool, &user.user_id)
+        .await
+        .map_err(|e| {
+            error!("Failed to check admin status: {}", e);
+            (
+                Status::InternalServerError,
+                Json(ErrorMessage {
+                    message: "can't check admin status".to_string(),
+                }),
+            )
+        })?;
+    if !is_admin {
+        return Ok(Status::Forbidden);
+    }    
+    Ok(Status::Ok)
+}
+
+#[post("/admin", data = "<data>")]
+pub async fn change_admin(
+    pool: &State<PostgresPool>,
+    user: AuthUser,
+    data: Json<ChangeToAdminData>,
+) -> Result<Status, (Status, Json<ErrorMessage>)> {
+    let is_admin = is_admin(pool, &user.user_id)
+        .await
+        .map_err(|e| {
+            error!("Failed to check admin status: {}", e);
+            (
+                Status::InternalServerError,
+                Json(ErrorMessage {
+                    message: "can't check admin status".to_string(),
+                }),
+            )
+        })?;
+    if !is_admin {
+        return Ok(Status::Forbidden);
+    }
+    if user.user_id == data.user_id {
+        return Err((
+            Status::BadRequest,
+            Json(ErrorMessage {
+                message: "you can't change your own admin status".to_string(),
+            }),
+        ));
+    }
+    set_admin(pool, &data.user_id, data.is_admin)
+        .await
+        .map_err(|e| {
+            error!("Failed to set admin status: {}", e);
+            (
+                Status::InternalServerError,
+                Json(ErrorMessage {
+                    message: "can't set admin status".to_string(),
+                }),
+            )
+        })?;
+    Ok(Status::Ok)
+}
+
+#[post("/subscribe", data = "<data>")]
+pub async fn add_subscribe(
+    pool: &State<PostgresPool>,
+    user: AuthUser,
+    data: Json<CreateSubscribe>,
+) -> Result<Status, (Status, Json<ErrorMessage>)> {
+    if !update_check_session_time(pool, &user.id)
+        .await
+        .map_err(|e| {
+            error!("Failed to update session time: {}", e);
+            (
+                Status::InternalServerError,
+                Json(ErrorMessage {
+                    message: "can't update session time".to_string(),
+                }),
+            )
+        })?
+    {
+        return Err((
+            Status::Unauthorized,
+            Json(ErrorMessage {
+                message: "invalid refresh token. Your session is not avalable.".to_string(),
+            }),
+        ));
+    }
+     let is_admin = is_admin(pool, &user.user_id)
+        .await
+        .map_err(|e| {
+            error!("Failed to check admin status: {}", e);
+            (
+                Status::InternalServerError,
+                Json(ErrorMessage {
+                    message: "can't check admin status".to_string(),
+                }),
+            )
+        })?;
+    if !is_admin {
+        return Ok(Status::Forbidden);
+    }
+    create_subscribe(pool, &data.user_id, data.created_at, data.valid_to)
+        .await
+        .map_err(|e| {
+            error!("Failed to create subscription: {}", e);
+            (
+                Status::InternalServerError,
+                Json(ErrorMessage {
+                    message: "can't create new user".to_string(),
+                }),
+            )
+        })?;
+    Ok(Status::Created)
+}
+
 #[launch]
 async fn rocket() -> _ {
     dotenv().ok();
@@ -1115,14 +1280,15 @@ async fn rocket() -> _ {
             "/api/v1/auth",
             routes![authorization, registration, exit, refresh],
         )
+        .mount("/api/v1/check", routes![check_is_admin])
         .mount(
             "/api/v1/get",
-            routes![get_words_from_url, get_history, get_task, get_account],
+            routes![get_words_from_url, get_history, get_task, get_account, all_users],
         )
         .mount("/api/v1/create", routes![create_task])
-        .mount("/api/v1/edit", routes![edit_task_name])
+        .mount("/api/v1/edit", routes![edit_task_name, change_admin])
         .mount("/api/v1/regenerate", routes![edit_task])
         .mount("/api/v1/delete", routes![delete_session, delete_task])
-        .mount("/api/v1/add", routes![add_information_by_task])
+        .mount("/api/v1/add", routes![add_information_by_task, add_subscribe])
         .attach(cors)
 }

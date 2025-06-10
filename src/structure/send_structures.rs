@@ -110,3 +110,20 @@ pub struct SendMessage {
     pub message: String,
     pub task_type: String,
 }
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Subscribtion {
+    pub created_at: Option<chrono::DateTime<Utc>>,
+    pub expires_at: Option<chrono::DateTime<Utc>>,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SendUser{
+    pub name: String,
+    pub email: String,
+    pub subscription: Subscribtion,
+    pub id: String,
+    pub is_admin: bool,
+}
