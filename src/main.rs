@@ -58,10 +58,6 @@ mod api {
     tonic::include_proto!("api");
 }
 
-struct ConfigIternal {
-    pub integration_service_client_url: String,
-}
-
 const STREAM_NAME: &str = "ai_stream";
 
 #[derive(Debug)]
@@ -694,7 +690,6 @@ async fn get_words_from_url(
     product_id: i32,
     user: AuthUser,
     pool: &State<PostgresPool>,
-    config: &State<ConfigIternal>,
 ) -> Result<(Status, Json<Vec<String>>), (Status, Json<ErrorMessage>)> {
     if !sub_is_exist(pool, &user.user_id).await.map_err(|e| {
         error!("Failed to check subscription existence: {}", e);
@@ -707,12 +702,9 @@ async fn get_words_from_url(
     })? {
         return Ok((Status::PaymentRequired, Json(vec![])));
     }
-    println!(
-        "Connecting to parser service at: {}",
-        config.integration_service_client_url
-    );
     let mut client =
-        ParserIntegrationServiceClient::connect(config.integration_service_client_url.clone())
+        ParserIntegrationServiceClient::connect(std::env::var("URL_INTEGRATION_SERVICE")
+            .unwrap_or("internal_api:50051".to_string()))
             .await
             .map_err(|e| {
                 error!("Failed to create parser client: {}", e);
@@ -1284,10 +1276,6 @@ async fn rocket() -> _ {
         .attach(AdHoc::on_ignite("Nats", |rocket| async move {
             init_nats_stream(rocket).await
         }))
-        .manage(ConfigIternal {
-            integration_service_client_url: std::env::var("URL_INTEGRATION_SERVICE")
-                .unwrap_or("internal_api:50051".to_string()),
-        })
         .mount("/api/v1", routes![information,])
         .mount(
             "/api/v1/auth",
