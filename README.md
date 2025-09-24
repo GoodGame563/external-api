@@ -63,7 +63,3 @@ The external-api service is the central orchestrator, acting as the entry point 
 ## Development Notes
 - Modular Rust codebase, Rocket framework
 - See thesis for full workflow and data flow diagrams
-- Refer to `README.alt1.md` and original README for more details on endpoints and configuration
-
----
-This is a highly detailed README for thesis documentation. Do not overwrite the original README if present.
